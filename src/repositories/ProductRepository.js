@@ -76,4 +76,23 @@ export class ProductRepository extends Repository{
       await this.queryRunner.manager.release()
     }
   }
+
+  async listByCategory(category){
+    try{
+      return this.find({ category: category })
+    }catch(error){
+      console.error(error)
+    }
+  }
+
+  async listByPrice(){
+    try{
+      list = this.find()
+      sortedList = list.sort(function(a, b) {
+        return a.price < b.price
+    });
+    }catch(error){
+      console.error(error)
+    }
+  }
 }

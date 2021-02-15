@@ -79,4 +79,17 @@ productRouter.delete('/products/:id', async function (req, res) {
   }
 });
 
+// listByCategory
+productRouter.get('/listByCategory/:category', async function (req, res) {
+  var category = req.params.category;
+
+  try {
+    await new _typeorm.getCustomRepository(_ProductRepository.ProductRepository).listByCategory(category).then(function (products) {
+      return res.send(products);
+    });
+  } catch (error) {
+    console.error(error);
+  }
+});
+
 module.exports = productRouter;

@@ -57,4 +57,15 @@ productRouter.delete('/products/:id', async(req, res) =>{
   }
 })
 
+// listByCategory
+productRouter.get('/listByCategory/:category', async(req, res)=> {
+  const { category } = req.params
+  try{
+    await new getCustomRepository(ProductRepository).listByCategory(category)
+      .then(products => res.send(products))
+  }catch(error){
+    console.error(error)
+  }
+})
+
 module.exports = productRouter;

@@ -115,6 +115,27 @@ var ProductRepository = exports.ProductRepository = (_dec = EntityRepository(_Pr
         await this.queryRunner.manager.release();
       }
     }
+  }, {
+    key: "listByCategory",
+    value: async function listByCategory(category) {
+      try {
+        return this.find({ category: category });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }, {
+    key: "listByPrice",
+    value: async function listByPrice(price) {
+      try {
+        list = this.find();
+        sortedList = list.sort(function (a, b) {
+          return a.price < b.price;
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
   }]);
 
   return ProductRepository;
