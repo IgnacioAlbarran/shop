@@ -1,6 +1,7 @@
 import app from "../index"
 import { EntityRepository, Repository, getConnection, getCustomRepository, transactionEntityManager } from "typeorm";
 import { ProductRepository } from "../repositories/ProductRepository";
+import { min } from "moment";
 
 const express = require('express');
 const productRouter = express.Router();
@@ -63,6 +64,17 @@ productRouter.get('/listByCategory/:category', async(req, res)=> {
   try{
     await new getCustomRepository(ProductRepository).listByCategory(category)
       .then(products => res.send(products))
+  }catch(error){
+    console.error(error)
+  }
+})
+
+// listByPrice
+productRouter.get('/listByPrice', async(req, res) => {
+  const { min, max } = req.body
+  try{
+    await new getCustomRepository(ProductRepository).listByPrice(min, max)
+      .then(productsFiltered => res.send(productsFiltered))
   }catch(error){
     console.error(error)
   }

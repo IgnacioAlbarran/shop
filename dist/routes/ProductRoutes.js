@@ -8,6 +8,8 @@ var _typeorm = require("typeorm");
 
 var _ProductRepository = require("../repositories/ProductRepository");
 
+var _moment = require("moment");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var express = require('express');
@@ -86,6 +88,21 @@ productRouter.get('/listByCategory/:category', async function (req, res) {
   try {
     await new _typeorm.getCustomRepository(_ProductRepository.ProductRepository).listByCategory(category).then(function (products) {
       return res.send(products);
+    });
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+// listByPrice
+productRouter.get('/listByPrice', async function (req, res) {
+  var _req$body2 = req.body,
+      min = _req$body2.min,
+      max = _req$body2.max;
+
+  try {
+    await new _typeorm.getCustomRepository(_ProductRepository.ProductRepository).listByPrice(min, max).then(function (productsFiltered) {
+      return res.send(productsFiltered);
     });
   } catch (error) {
     console.error(error);

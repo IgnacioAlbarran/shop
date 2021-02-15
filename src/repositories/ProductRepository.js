@@ -85,12 +85,11 @@ export class ProductRepository extends Repository{
     }
   }
 
-  async listByPrice(){
+  async listByPrice(min, max){
     try{
-      list = this.find()
-      sortedList = list.sort(function(a, b) {
-        return a.price < b.price
-    });
+      const list = await this.find()
+      let filteredList = Object.values(list).filter(item => item.price >= min && item.price <= max)
+      return filteredList
     }catch(error){
       console.error(error)
     }

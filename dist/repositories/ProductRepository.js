@@ -126,12 +126,13 @@ var ProductRepository = exports.ProductRepository = (_dec = EntityRepository(_Pr
     }
   }, {
     key: "listByPrice",
-    value: async function listByPrice(price) {
+    value: async function listByPrice(min, max) {
       try {
-        list = this.find();
-        sortedList = list.sort(function (a, b) {
-          return a.price < b.price;
+        var list = await this.find();
+        var filteredList = Object.values(list).filter(function (item) {
+          return item.price >= min && item.price <= max;
         });
+        return filteredList;
       } catch (error) {
         console.error(error);
       }
