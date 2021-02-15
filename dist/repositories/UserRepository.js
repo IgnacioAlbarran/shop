@@ -27,20 +27,31 @@ var UserRepository = exports.UserRepository = (_dec = (0, _typeorm.EntityReposit
   function UserRepository() {
     _classCallCheck(this, UserRepository);
 
-    return _possibleConstructorReturn(this, (UserRepository.__proto__ || Object.getPrototypeOf(UserRepository)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (UserRepository.__proto__ || Object.getPrototypeOf(UserRepository)).call(this));
+
+    _this.connection = (0, _typeorm.getConnection)();
+    _this.queryRunner = _this.connection.createQueryRunner();
+    return _this;
   }
 
   _createClass(UserRepository, [{
     key: "createUser",
     value: async function createUser(firstName, lastName, email) {
+      var user = new _User.User();
+      user.firstName = firstName;
+      user.lastName = lastName;
+      user.email = email;
+
+      await this.queryRunner.startTransaction();
+
       try {
-        var user = new _User.User();
-        user.firstName = firstName;
-        user.lastName = lastName;
-        user.email = email;
-        return await this.save(user);
+        await this.queryRunner.manager.save(user);
+        await this.queryRunner.commitTransaction();
       } catch (error) {
         console.error(error);
+        await this.queryRunner.rollbackTransaction();
+      } finally {
+        await this.queryRunner.release();
       }
     }
   }, {
@@ -55,22 +66,33 @@ var UserRepository = exports.UserRepository = (_dec = (0, _typeorm.EntityReposit
   }, {
     key: "updateUser",
     value: async function updateUser(id, newuser) {
+      this.queryRunner.startTransaction();
       try {
-        this.delete(id);
+        await this.queryRunner.manager.delete(_User.User, { id: id });
         var user = newuser;
         user.id = id;
-        return await this.save(user);
+        await this.queryRunner.manager.save(user);
+        await this.queryRunner.commitTransaction();
       } catch (error) {
         console.error(error);
+        await this.queryRunner.rollbackTransaction();
+      } finally {
+        await this.queryRunner.release();
       }
     }
   }, {
     key: "deleteUser",
     value: async function deleteUser(id) {
+      await this.queryRunner.startTransaction();
       try {
-        return this.delete(id);
+        // const user = await this.queryRunner.manager.find({id: id})
+        await this.queryRunner.manager.remove(_User.User, { id: id });
+        await this.queryRunner.commitTransaction();
       } catch (error) {
         console.error(error);
+        await this.queryRunner.rollbackTransaction();
+      } finally {
+        await this.queryRunner.release();
       }
     }
   }, {
@@ -78,7 +100,6 @@ var UserRepository = exports.UserRepository = (_dec = (0, _typeorm.EntityReposit
     value: async function getUser(id) {
       try {
         var user = await this.find({ id: id });
-        console.log(typeof user === "undefined" ? "undefined" : _typeof(user));
         if ((typeof user === "undefined" ? "undefined" : _typeof(user)) !== 'object') {
           return 'User not found';
         } else {

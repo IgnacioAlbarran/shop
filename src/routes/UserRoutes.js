@@ -8,10 +8,10 @@ const userRouter = express.Router()
 // create user
 userRouter.post('/users', async (req, res) => {
   try{
-      const { firstName, lastName, email } = req.body
-      const user =  await new getCustomRepository(UserRepository).createUser(firstName, lastName, email)
-          .then(user => res.send(user))
-          .catch(error => console.error(error));
+    const { firstName, lastName, email } = req.body
+    const user =  await new getCustomRepository(UserRepository).createUser(firstName, lastName, email)
+        .then(user => res.send(user))
+        .catch(error => console.error(error));
   }catch(error){
       console.error(error)
   }

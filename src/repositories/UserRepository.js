@@ -1,17 +1,30 @@
-import { EntityRepository, Repository } from "typeorm";
+import { EntityRepository, Repository, getConnection, getRepository, transactionEntityManager } from "typeorm";
 import { User } from "../entities/User";
 
 @EntityRepository(User)
 export class UserRepository extends Repository {
+  constructor(){
+    super();
+    this.connection = getConnection();
+    this.queryRunner = this.connection.createQueryRunner();
+  }
+
   async createUser(firstName, lastName, email){
+    const user = new User;
+    user.firstName = firstName;
+    user.lastName = lastName;
+    user.email = email;
+
+    await this.queryRunner.startTransaction();
+
     try{
-      const user = new User;
-      user.firstName = firstName;
-      user.lastName = lastName;
-      user.email = email;
-      return await this.save(user)
+      await this.queryRunner.manager.save(user);
+      await this.queryRunner.commitTransaction();
     }catch(error){
       console.error(error)
+      await this.queryRunner.rollbackTransaction();
+    }finally{
+      await this.queryRunner.release();
     }
   }
 
@@ -24,28 +37,38 @@ export class UserRepository extends Repository {
   }
 
   async updateUser(id, newuser){
+    this.queryRunner.startTransaction();
     try{
-      this.delete(id)
+      await this.queryRunner.manager.delete(User, {id: id})
       const user = newuser
       user.id = id
-      return await this.save(user)
+      await this.queryRunner.manager.save(user)
+      await this.queryRunner.commitTransaction();
     }catch(error){
       console.error(error)
+      await this.queryRunner.rollbackTransaction();
+    }finally{
+      await this.queryRunner.release();
     }
   }
 
   async deleteUser(id){
+    await this.queryRunner.startTransaction();
     try{
-      return this.delete(id)
+      // const user = await this.queryRunner.manager.find({id: id})
+      await this.queryRunner.manager.remove(User, {id: id});
+      await this.queryRunner.commitTransaction();
     }catch(error){
       console.error(error)
+      await this.queryRunner.rollbackTransaction();
+    }finally{
+      await this.queryRunner.release();
     }
   }
 
   async getUser(id){
     try{
       const user =  await this.find({id: id})
-      console.log(typeof(user))
       if (typeof(user) !== 'object'){
         return 'User not found'
       }else{

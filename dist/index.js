@@ -17,17 +17,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var app = (0, _express2.default)();
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
-
 var userRouter = require("./routes/UserRoutes");
+var productRouter = require("./routes/ProductRoutes");
 
-(async function () {
-    try {
-        var connection = await (0, _typeorm.createConnection)().then(console.log('-- Connection established'));
-        var queryRunner = connection.createQueryRunner();
-    } catch (error) {
-        console.error(error);
-    }
-})();
+var connection = (0, _typeorm.createConnection)().then(console.log('-- Connection established')).catch(function (error) {
+    return console.error(error);
+});
 
 app.get('/', function (req, res) {
     res.send("En ruta principal de la app");
@@ -35,6 +30,8 @@ app.get('/', function (req, res) {
 
 // we get user routes
 app.use('/', userRouter);
+// we get product routes
+app.use('/', productRouter);
 
 app.listen(3000, function () {
     try {

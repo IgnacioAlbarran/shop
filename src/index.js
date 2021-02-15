@@ -7,18 +7,12 @@ import { UserRepository } from "./repositories/UserRepository";
 const app = express();
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
-
 const userRouter = require("./routes/UserRoutes");
+const productRouter = require("./routes/ProductRoutes");
 
-(async () => {
-    try{
-        const connection = await createConnection()
-            .then(console.log('-- Connection established'))
-        const queryRunner = connection.createQueryRunner();
-    }catch(error){
-        console.error(error)
-    }
-})();
+const connection = createConnection()
+    .then(console.log('-- Connection established'))
+    .catch(error => console.error(error))
 
 app.get('/', (req, res) => {
     res.send("En ruta principal de la app");
@@ -26,6 +20,8 @@ app.get('/', (req, res) => {
 
 // we get user routes
 app.use('/', userRouter);
+// we get product routes
+app.use('/', productRouter);
 
 app.listen(3000, () => {
     try{
@@ -34,4 +30,5 @@ app.listen(3000, () => {
         console.error(error)
     }
 })
+
 
