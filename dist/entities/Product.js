@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8;
 
 function _initDefineProp(target, property, descriptor, context) {
   if (!descriptor) return;
@@ -56,7 +56,7 @@ var _require = require("typeorm"),
     PrimaryGeneratedColumn = _require.PrimaryGeneratedColumn,
     Column = _require.Column;
 
-var Product = exports.Product = (_dec = Entity(), _dec2 = PrimaryGeneratedColumn(), _dec3 = Column('varchar'), _dec4 = Column('varchar'), _dec5 = Column('integer'), _dec6 = Column('integer'), _dec7 = Column('varchar'), _dec8 = Column('varchar'), _dec(_class = (_class2 = function Product() {
+var Product = exports.Product = (_dec = Entity(), _dec2 = PrimaryGeneratedColumn(), _dec3 = Column('varchar'), _dec4 = Column('varchar'), _dec5 = Column('varchar'), _dec6 = Column('integer'), _dec7 = Column('integer'), _dec8 = Column('varchar'), _dec9 = Column('varchar'), _dec(_class = (_class2 = function Product() {
   _classCallCheck(this, Product);
 
   _initDefineProp(this, 'id', _descriptor, this);
@@ -65,13 +65,15 @@ var Product = exports.Product = (_dec = Entity(), _dec2 = PrimaryGeneratedColumn
 
   _initDefineProp(this, 'brand', _descriptor3, this);
 
-  _initDefineProp(this, 'category', _descriptor4, this);
+  _initDefineProp(this, 'seller', _descriptor4, this);
 
-  _initDefineProp(this, 'price', _descriptor5, this);
+  _initDefineProp(this, 'category', _descriptor5, this);
 
-  _initDefineProp(this, 'photo', _descriptor6, this);
+  _initDefineProp(this, 'price', _descriptor6, this);
 
-  _initDefineProp(this, 'description', _descriptor7, this);
+  _initDefineProp(this, 'photo', _descriptor7, this);
+
+  _initDefineProp(this, 'description', _descriptor8, this);
 }, (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'id', [_dec2], {
   enumerable: true,
   initializer: function initializer() {
@@ -87,22 +89,27 @@ var Product = exports.Product = (_dec = Entity(), _dec2 = PrimaryGeneratedColumn
   initializer: function initializer() {
     return '';
   }
-}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'category', [_dec5], {
-  enumerable: true,
-  initializer: function initializer() {
-    return undefined;
-  }
-}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, 'price', [_dec6], {
-  enumerable: true,
-  initializer: function initializer() {
-    return undefined;
-  }
-}), _descriptor6 = _applyDecoratedDescriptor(_class2.prototype, 'photo', [_dec7], {
+}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'seller', [_dec5], {
   enumerable: true,
   initializer: function initializer() {
     return '';
   }
-}), _descriptor7 = _applyDecoratedDescriptor(_class2.prototype, 'description', [_dec8], {
+}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, 'category', [_dec6], {
+  enumerable: true,
+  initializer: function initializer() {
+    return undefined;
+  }
+}), _descriptor6 = _applyDecoratedDescriptor(_class2.prototype, 'price', [_dec7], {
+  enumerable: true,
+  initializer: function initializer() {
+    return undefined;
+  }
+}), _descriptor7 = _applyDecoratedDescriptor(_class2.prototype, 'photo', [_dec8], {
+  enumerable: true,
+  initializer: function initializer() {
+    return '';
+  }
+}), _descriptor8 = _applyDecoratedDescriptor(_class2.prototype, 'description', [_dec9], {
   enumerable: true,
   initializer: function initializer() {
     return '';

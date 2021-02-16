@@ -13,4 +13,7 @@ const { Entity, PrimaryGeneratedColumn, Column } = require("typeorm");
 
     @Column('varchar')
     email = '';
+
+    @Column('varchar')
+    password = ''
   }

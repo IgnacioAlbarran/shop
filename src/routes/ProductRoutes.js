@@ -15,9 +15,9 @@ productRouter.get('/products', async(req, res) => {
 
 // create
 productRouter.post('/products', async(req, res) => {
-  const { name, brand, category, price, photo, description } = req.body
+  const { name, brand, seller, category, price, photo, description } = req.body
   try{
-    const product = await new getCustomRepository(ProductRepository).createProduct(name, brand, category, price, photo, description)
+    const product = await new getCustomRepository(ProductRepository).createProduct(name, brand, seller, category, price, photo, description)
       .then(product => res.send(product))
   }catch(error){
     console.error(error)

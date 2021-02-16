@@ -11,6 +11,9 @@ const { Entity, PrimaryGeneratedColumn, Column } = require("typeorm");
     @Column('varchar')
     brand = '';
 
+    @Column('varchar')
+    seller = '';
+
     @Column('integer')
     category = undefined;
 

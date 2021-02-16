@@ -10,12 +10,13 @@ export class ProductRepository extends Repository{
     this.queryRunner = this.connection.createQueryRunner();
   }
 
-  async createProduct(name, brand, category, price, photo, description){
+  async createProduct(name, brand, seller, category, price, photo, description){
     await this.queryRunner.startTransaction();
     try{
       const product = new Product;
       product.name = name;
       product.brand = brand;
+      product.seller = seller;
       product.category = category;
       product.price = price;
       product.photo = photo;

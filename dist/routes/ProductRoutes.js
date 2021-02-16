@@ -29,13 +29,14 @@ productRouter.post('/products', async function (req, res) {
   var _req$body = req.body,
       name = _req$body.name,
       brand = _req$body.brand,
+      seller = _req$body.seller,
       category = _req$body.category,
       price = _req$body.price,
       photo = _req$body.photo,
       description = _req$body.description;
 
   try {
-    var product = await new _typeorm.getCustomRepository(_ProductRepository.ProductRepository).createProduct(name, brand, category, price, photo, description).then(function (product) {
+    var product = await new _typeorm.getCustomRepository(_ProductRepository.ProductRepository).createProduct(name, brand, seller, category, price, photo, description).then(function (product) {
       return res.send(product);
     });
   } catch (error) {
