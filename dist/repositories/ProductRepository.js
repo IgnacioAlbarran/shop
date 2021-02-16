@@ -138,6 +138,19 @@ var ProductRepository = exports.ProductRepository = (_dec = EntityRepository(_Pr
         console.error(error);
       }
     }
+  }, {
+    key: "listBySeller",
+    value: async function listBySeller(seller) {
+      try {
+        var list = await this.find();
+        var sellerProducts = Object.values(list).filter(function (item) {
+          return item.seller >= seller;
+        });
+        return sellerProducts;
+      } catch (error) {
+        console.error(error);
+      }
+    }
   }]);
 
   return ProductRepository;

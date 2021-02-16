@@ -110,4 +110,17 @@ productRouter.get('/listByPrice', async function (req, res) {
   }
 });
 
+// listBySeller
+productRouter.get('/listBySeller', async function (req, res) {
+  var seller = req.body.seller;
+
+  try {
+    await new _typeorm.getCustomRepository(_ProductRepository.ProductRepository).listBySeller(seller).then(function (sellerProductsList) {
+      return res.send(sellerProductsList);
+    });
+  } catch (error) {
+    console.error(error);
+  }
+});
+
 module.exports = productRouter;

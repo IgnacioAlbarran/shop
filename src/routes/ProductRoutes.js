@@ -80,4 +80,15 @@ productRouter.get('/listByPrice', async(req, res) => {
   }
 })
 
+// listBySeller
+productRouter.get('/listBySeller', async(req, res) => {
+  const { seller } = req.body
+  try{
+    await new getCustomRepository(ProductRepository).listBySeller(seller)
+      .then( sellerProductsList => res.send(sellerProductsList))
+  }catch(error){
+    console.error(error)
+  }
+})
+
 module.exports = productRouter;

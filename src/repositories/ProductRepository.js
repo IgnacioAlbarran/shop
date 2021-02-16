@@ -95,4 +95,14 @@ export class ProductRepository extends Repository{
       console.error(error)
     }
   }
+
+  async listBySeller(seller){
+    try{
+      const list = await this.find()
+      let sellerProducts = Object.values(list).filter(item => item.seller >= seller)
+      return sellerProducts
+    }catch(error){
+      console.error(error)
+    }
+  }
 }
