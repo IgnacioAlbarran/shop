@@ -3,7 +3,7 @@ const { Entity, PrimaryGeneratedColumn, Column } = require("typeorm");
 @Entity()
   export class Product{
     @PrimaryGeneratedColumn()
-    id = undefined
+    id = undefined;
 
     @Column('varchar')
     name = '';

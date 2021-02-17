@@ -16,15 +16,11 @@ export class UserRepository extends Repository {
 
   async createUser(firstName, lastName, email, password){
     const hash = bcrypt.hashSync(password, salt);
-console.log(hash);
     const user = new User;
     user.firstName = firstName;
     user.lastName = lastName;
     user.email = email;
     user.password = hash;
-
-
-    console.log(user.password)
 
     await this.queryRunner.startTransaction();
 
