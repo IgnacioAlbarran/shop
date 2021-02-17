@@ -1,4 +1,5 @@
 const { Entity, PrimaryGeneratedColumn, Column } = require("typeorm");
+const bcrypt = require('bcrypt-nodejs');
 
 @Entity()
   export class User{

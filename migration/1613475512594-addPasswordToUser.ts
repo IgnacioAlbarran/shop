@@ -1,12 +1,13 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class addSellerToProduct1613407808876 implements MigrationInterface {
+export class addPasswordToUser1613475512594 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        `ALTER TABLE "product" ADD COLUMN "seller" after "brand"`
+        `ALTER TABLE 'user' ADD COLUMN 'password' AFTER 'email'`
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        `ALTER TABLE "product" DROP COLUMN "seller"`
+        `ALTER TABLE 'user' DROP COLUMN 'password'`
     }
+
 }

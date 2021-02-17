@@ -56,6 +56,8 @@ var _require = require("typeorm"),
     PrimaryGeneratedColumn = _require.PrimaryGeneratedColumn,
     Column = _require.Column;
 
+var bcrypt = require('bcrypt-nodejs');
+
 var User = exports.User = (_dec = Entity(), _dec2 = PrimaryGeneratedColumn(), _dec3 = Column('varchar'), _dec4 = Column('varchar'), _dec5 = Column('varchar'), _dec6 = Column('varchar'), _dec(_class = (_class2 = function User() {
   _classCallCheck(this, User);
 

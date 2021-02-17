@@ -19,9 +19,10 @@ userRouter.post('/users', async function (req, res) {
         var _req$body = req.body,
             firstName = _req$body.firstName,
             lastName = _req$body.lastName,
-            email = _req$body.email;
+            email = _req$body.email,
+            password = _req$body.password;
 
-        var user = await new _typeorm.getCustomRepository(_UserRepository.UserRepository).createUser(firstName, lastName, email).then(function (user) {
+        var user = await new _typeorm.getCustomRepository(_UserRepository.UserRepository).createUser(firstName, lastName, email, password).then(function (user) {
             return res.send(user);
         }).catch(function (error) {
             return console.error(error);

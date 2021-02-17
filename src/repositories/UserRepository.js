@@ -1,6 +1,11 @@
 import { EntityRepository, Repository, getConnection, getRepository, transactionEntityManager } from "typeorm";
 import { User } from "../entities/User";
 
+const bcrypt = require('bcrypt-nodejs');
+const salt = bcrypt.genSaltSync(10);
+const myPlaintextPassword = 's0/\/\P4$$w0rD';
+const someOtherPlaintextPassword = 'not_bacon';
+
 @EntityRepository(User)
 export class UserRepository extends Repository {
   constructor(){
@@ -9,11 +14,17 @@ export class UserRepository extends Repository {
     this.queryRunner = this.connection.createQueryRunner();
   }
 
-  async createUser(firstName, lastName, email){
+  async createUser(firstName, lastName, email, password){
+    const hash = bcrypt.hashSync(password, salt);
+console.log(hash);
     const user = new User;
     user.firstName = firstName;
     user.lastName = lastName;
     user.email = email;
+    user.password = hash;
+
+
+    console.log(user.password)
 
     await this.queryRunner.startTransaction();
 
