@@ -14,22 +14,18 @@ var express = require('express');
 var userRouter = express.Router();
 
 // create user
-userRouter.post('/users', async function (req, res) {
-    try {
-        var _req$body = req.body,
-            firstName = _req$body.firstName,
-            lastName = _req$body.lastName,
-            email = _req$body.email,
-            password = _req$body.password;
+userRouter.post('/signUp', async function (req, res) {
+    var _req$body = req.body,
+        firstName = _req$body.firstName,
+        lastName = _req$body.lastName,
+        email = _req$body.email,
+        password = _req$body.password;
 
-        var user = await new _typeorm.getCustomRepository(_UserRepository.UserRepository).createUser(firstName, lastName, email, password).then(function (user) {
-            return res.send(user);
-        }).catch(function (error) {
-            return console.error(error);
-        });
-    } catch (error) {
-        console.error(error);
-    }
+    var user = await new _typeorm.getCustomRepository(_UserRepository.UserRepository).signUp(firstName, lastName, email, password).then(function (user) {
+        return res.status(200).send(user);
+    }).catch(function (error) {
+        return res.status(500).send({ message: 'Error creating user' });
+    });
 });
 
 // index user

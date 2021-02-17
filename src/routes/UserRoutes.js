@@ -6,15 +6,11 @@ const express = require('express')
 const userRouter = express.Router()
 
 // create user
-userRouter.post('/users', async (req, res) => {
-  try{
-    const { firstName, lastName, email, password } = req.body
-    const user =  await new getCustomRepository(UserRepository).createUser(firstName, lastName, email, password)
-        .then(user => res.send(user))
-        .catch(error => console.error(error));
-  }catch(error){
-      console.error(error)
-  }
+userRouter.post('/signUp', async (req, res) => {
+  const { firstName, lastName, email, password } = req.body
+  const user =  await new getCustomRepository(UserRepository).signUp(firstName, lastName, email, password)
+      .then(user => res.status(200).send(user))
+      .catch(error => res.status(500).send({message: 'Error creating user'}));
 })
 
 // index user
