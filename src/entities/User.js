@@ -1,4 +1,4 @@
-const { Entity, PrimaryGeneratedColumn, Column } = require("typeorm");
+const { Entity, PrimaryGeneratedColumn, Column, Index } = require("typeorm");
 
 @Entity()
   export class User{
@@ -11,6 +11,7 @@ const { Entity, PrimaryGeneratedColumn, Column } = require("typeorm");
     @Column('varchar')
     lastName = '';
 
+    @Index({unique: true})
     @Column('varchar')
     email = '';
 

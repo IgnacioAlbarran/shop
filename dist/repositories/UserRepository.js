@@ -54,6 +54,7 @@ var UserRepository = exports.UserRepository = (_dec = (0, _typeorm.EntityReposit
       try {
         await this.queryRunner.manager.save(user);
         await this.queryRunner.commitTransaction();
+        return user;
       } catch (error) {
         console.error(error);
         await this.queryRunner.rollbackTransaction();
@@ -61,6 +62,24 @@ var UserRepository = exports.UserRepository = (_dec = (0, _typeorm.EntityReposit
         await this.queryRunner.release();
       }
     }
+
+    // async signIn(req, res){
+    //   await this.find({ email: req.body.email }, (error, res) =>{
+    //     console.log(this)
+    //     if (error) res.status(500).send({message: error})
+    //     if (!user) res.status(404).send({ message: 'User not found'})
+
+    //     bcrypt.compare(req.body.password, secrets.SECRET_TOKEN, function(err, res) {
+    //       if(req.body.password != user.password){
+    //         res.json({success: false, message: 'passwords does not match'});
+    //       } else {
+    //         req.user = user;
+    //         res.send({ token: this.auth(req.user) })
+    //       }
+    //     });
+    //   })
+    // }
+
   }, {
     key: "getUsers",
     value: async function getUsers() {

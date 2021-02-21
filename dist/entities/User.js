@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5;
 
 function _initDefineProp(target, property, descriptor, context) {
   if (!descriptor) return;
@@ -54,9 +54,10 @@ function _initializerWarningHelper(descriptor, context) {
 var _require = require("typeorm"),
     Entity = _require.Entity,
     PrimaryGeneratedColumn = _require.PrimaryGeneratedColumn,
-    Column = _require.Column;
+    Column = _require.Column,
+    Index = _require.Index;
 
-var User = exports.User = (_dec = Entity(), _dec2 = PrimaryGeneratedColumn(), _dec3 = Column('varchar'), _dec4 = Column('varchar'), _dec5 = Column('varchar'), _dec6 = Column('varchar'), _dec(_class = (_class2 = function User() {
+var User = exports.User = (_dec = Entity(), _dec2 = PrimaryGeneratedColumn(), _dec3 = Column('varchar'), _dec4 = Column('varchar'), _dec5 = Index({ unique: true }), _dec6 = Column('varchar'), _dec7 = Column('varchar'), _dec(_class = (_class2 = function User() {
   _classCallCheck(this, User);
 
   _initDefineProp(this, 'id', _descriptor, this);
@@ -83,12 +84,12 @@ var User = exports.User = (_dec = Entity(), _dec2 = PrimaryGeneratedColumn(), _d
   initializer: function initializer() {
     return '';
   }
-}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'email', [_dec5], {
+}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'email', [_dec5, _dec6], {
   enumerable: true,
   initializer: function initializer() {
     return '';
   }
-}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, 'password', [_dec6], {
+}), _descriptor5 = _applyDecoratedDescriptor(_class2.prototype, 'password', [_dec7], {
   enumerable: true,
   initializer: function initializer() {
     return '';
