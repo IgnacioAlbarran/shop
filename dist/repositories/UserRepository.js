@@ -41,13 +41,14 @@ var UserRepository = exports.UserRepository = (_dec = (0, _typeorm.EntityReposit
 
   _createClass(UserRepository, [{
     key: "signUp",
-    value: async function signUp(firstName, lastName, email, password) {
+    value: async function signUp(firstName, lastName, email, password, level) {
       var hash = bcrypt.hashSync(password, salt);
       var user = new _User.User();
       user.firstName = firstName;
       user.lastName = lastName;
       user.email = email;
       user.password = hash;
+      user.level = level;
 
       await this.queryRunner.startTransaction();
 

@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6;
 
 function _initDefineProp(target, property, descriptor, context) {
   if (!descriptor) return;
@@ -57,7 +57,7 @@ var _require = require("typeorm"),
     Column = _require.Column,
     Index = _require.Index;
 
-var User = exports.User = (_dec = Entity(), _dec2 = PrimaryGeneratedColumn(), _dec3 = Column('varchar'), _dec4 = Column('varchar'), _dec5 = Index({ unique: true }), _dec6 = Column('varchar'), _dec7 = Column('varchar'), _dec(_class = (_class2 = function User() {
+var User = exports.User = (_dec = Entity(), _dec2 = PrimaryGeneratedColumn(), _dec3 = Column('varchar'), _dec4 = Column('varchar'), _dec5 = Index({ unique: true }), _dec6 = Column('varchar'), _dec7 = Column('varchar'), _dec8 = Column({ type: 'integer', default: 1 }), _dec(_class = (_class2 = function User() {
   _classCallCheck(this, User);
 
   _initDefineProp(this, 'id', _descriptor, this);
@@ -69,6 +69,8 @@ var User = exports.User = (_dec = Entity(), _dec2 = PrimaryGeneratedColumn(), _d
   _initDefineProp(this, 'email', _descriptor4, this);
 
   _initDefineProp(this, 'password', _descriptor5, this);
+
+  _initDefineProp(this, 'level', _descriptor6, this);
 }, (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'id', [_dec2], {
   enumerable: true,
   initializer: function initializer() {
@@ -93,5 +95,10 @@ var User = exports.User = (_dec = Entity(), _dec2 = PrimaryGeneratedColumn(), _d
   enumerable: true,
   initializer: function initializer() {
     return '';
+  }
+}), _descriptor6 = _applyDecoratedDescriptor(_class2.prototype, 'level', [_dec8], {
+  enumerable: true,
+  initializer: function initializer() {
+    return undefined;
   }
 })), _class2)) || _class);

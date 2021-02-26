@@ -12,6 +12,7 @@ var _User = require("../entities/User");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var auth = require("../../middlewares/auth.js");
 var express = require('express');
 var userRouter = express.Router();
 var service = require('../../services/index.js');
@@ -25,15 +26,17 @@ userRouter.post('/signUp', async function (req, res) {
         firstName = _req$body.firstName,
         lastName = _req$body.lastName,
         email = _req$body.email,
-        password = _req$body.password;
+        password = _req$body.password,
+        level = _req$body.level;
 
-    var user = await new _typeorm.getCustomRepository(_UserRepository.UserRepository).signUp(firstName, lastName, email, password);
+    var user = await new _typeorm.getCustomRepository(_UserRepository.UserRepository).signUp(firstName, lastName, email, password, level);
     return res.status(200).send({ token: await service.auth(user) });
   } catch (error) {
     res.status(500).send({ message: 'Error creating user. Please double-check the data.' });
   }
 });
 
+// Sign In
 userRouter.post('/signIn', async function (req, res) {
   await new _typeorm.getCustomRepository(_UserRepository.UserRepository).find({ email: req.body.email }).then(function (user) {
     bcrypt.compare(req.body.password, user[0].password, function (err, resultado) {
@@ -50,7 +53,8 @@ userRouter.post('/signIn', async function (req, res) {
 });
 
 // index user
-userRouter.get('/users', async function (req, res) {
+userRouter.get('/users', auth.isAdmin, async function (req, res) {
+  if (req.level !== 3) return res.status(403).send({ message: 'Forbidden' });
   try {
     var users = await new _typeorm.getCustomRepository(_UserRepository.UserRepository).getUsers().then(function (users) {
       return res.send(users);

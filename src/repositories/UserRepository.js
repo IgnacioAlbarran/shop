@@ -14,13 +14,14 @@ export class UserRepository extends Repository {
     this.queryRunner = this.connection.createQueryRunner();
   }
 
-  async signUp(firstName, lastName, email, password){
+  async signUp(firstName, lastName, email, password, level){
     const hash = bcrypt.hashSync(password, salt);
     const user = new User;
     user.firstName = firstName;
     user.lastName = lastName;
     user.email = email;
     user.password = hash;
+    user.level = level;
 
     await this.queryRunner.startTransaction();
 

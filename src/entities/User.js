@@ -17,4 +17,7 @@ const { Entity, PrimaryGeneratedColumn, Column, Index } = require("typeorm");
 
     @Column('varchar')
     password = ''
+
+    @Column({type: 'integer', default: 1})
+    level = undefined
   }

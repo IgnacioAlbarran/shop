@@ -3,6 +3,7 @@ import { getCustomRepository } from "typeorm";
 import { UserRepository } from "../repositories/UserRepository";
 import { User } from "../entities/User";
 
+const auth = require("../../middlewares/auth.js");
 const express = require('express')
 const userRouter = express.Router()
 const service = require('../../services/index.js')
@@ -12,14 +13,15 @@ const bcrypt = require('bcrypt');
 // create user
 userRouter.post('/signUp', async (req, res) => {
   try{
-    const { firstName, lastName, email, password } = req.body
-    const user =  await new getCustomRepository(UserRepository).signUp(firstName, lastName, email, password)
+    const { firstName, lastName, email, password , level} = req.body
+    const user =  await new getCustomRepository(UserRepository).signUp(firstName, lastName, email, password, level)
     return res.status(200).send({ token: await service.auth(user) })
   }catch(error){
     res.status(500).send({message: 'Error creating user. Please double-check the data.'});
   }
 })
 
+// Sign In
 userRouter.post('/signIn', async(req, res) => {
   await new getCustomRepository(UserRepository).find({ email: req.body.email })
     .then((user) => {
@@ -36,7 +38,8 @@ userRouter.post('/signIn', async(req, res) => {
 )})
 
 // index user
-userRouter.get('/users', async (req, res) => {
+userRouter.get('/users', auth.isAuth, async(req, res) => {
+  if (req.level !== 3) return res.status(403).send({ message: 'Forbidden' })
   try{
     const users =  await new getCustomRepository(UserRepository).getUsers()
       .then(users => res.send(users))
@@ -47,7 +50,7 @@ userRouter.get('/users', async (req, res) => {
 })
 
 // show user
-userRouter.get('/users/:id', async (req, res) => {
+userRouter.get('/users/:id', auth.isAuth, async (req, res) => {
   try{
     const { id } = req.params
     await new getCustomRepository(UserRepository).getUser(id)

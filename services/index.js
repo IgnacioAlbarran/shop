@@ -5,6 +5,7 @@ const secrets = require('../secrets')
   function auth(user){
     const payload = {
       sub: user.id,
+      lev: user.level,
       iat: moment().unix(),
       exp: moment().add(14, 'days').unix()
     }
