@@ -11,7 +11,7 @@ const { Entity, PrimaryGeneratedColumn, Column } = require("typeorm");
     @Column('varchar')
     brand = '';
 
-    @Column('varchar')
+    @Column('integer')
     seller = '';
 
     @Column('integer')

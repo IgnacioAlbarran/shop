@@ -54,9 +54,10 @@ function _initializerWarningHelper(descriptor, context) {
 var _require = require("typeorm"),
     Entity = _require.Entity,
     PrimaryGeneratedColumn = _require.PrimaryGeneratedColumn,
-    Column = _require.Column;
+    Column = _require.Column,
+    ManyToOne = _require.ManyToOne;
 
-var Product = exports.Product = (_dec = Entity(), _dec2 = PrimaryGeneratedColumn(), _dec3 = Column('varchar'), _dec4 = Column('varchar'), _dec5 = Column('varchar'), _dec6 = Column('integer'), _dec7 = Column('integer'), _dec8 = Column('varchar'), _dec9 = Column('varchar'), _dec(_class = (_class2 = function Product() {
+var Product = exports.Product = (_dec = Entity(), _dec2 = PrimaryGeneratedColumn(), _dec3 = Column('varchar'), _dec4 = Column('varchar'), _dec5 = Column('integer'), _dec6 = Column('integer'), _dec7 = Column('integer'), _dec8 = Column('varchar'), _dec9 = Column('varchar'), _dec(_class = (_class2 = function Product() {
   _classCallCheck(this, Product);
 
   _initDefineProp(this, 'id', _descriptor, this);

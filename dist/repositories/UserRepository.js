@@ -21,6 +21,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var service = require('../../services/index.js');
 var bcrypt = require('bcrypt');
 var salt = bcrypt.genSaltSync(10);
 var myPlaintextPassword = 's0/\/\P4$$w0rD';
@@ -80,6 +81,10 @@ var UserRepository = exports.UserRepository = (_dec = (0, _typeorm.EntityReposit
     value: async function updateUser(id, userData) {
       this.queryRunner.startTransaction();
       try {
+        if (userData.password != undefined) {
+          var hash = bcrypt.hashSync(userData.password, salt);
+          userData.password = hash;
+        }
         await this.queryRunner.manager.update(_User.User, id, userData);
         await this.queryRunner.commitTransaction();
       } catch (error) {
@@ -94,7 +99,7 @@ var UserRepository = exports.UserRepository = (_dec = (0, _typeorm.EntityReposit
     value: async function deleteUser(id) {
       this.queryRunner.startTransaction();
       try {
-        await this.queryRunner.manager.update(_User.User, id, { "level": 0 });
+        await this.queryRunner.manager.update(_User.User, id, { "level": service.USUARIOS.inactive });
         await this.queryRunner.commitTransaction();
       } catch (error) {
         console.error(error);

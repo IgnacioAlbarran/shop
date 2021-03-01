@@ -1,6 +1,7 @@
 import { EntityRepository, Repository, getConnection, getRepository, transactionEntityManager } from "typeorm";
 import { User } from "../entities/User";
 
+const service = require('../../services/index.js')
 const bcrypt = require('bcrypt');
 const salt = bcrypt.genSaltSync(10);
 const myPlaintextPassword = 's0/\/\P4$$w0rD';
@@ -52,6 +53,10 @@ export class UserRepository extends Repository {
   async updateUser(id, userData){
     this.queryRunner.startTransaction();
     try{
+      if (userData.password != undefined) {
+        const hash = bcrypt.hashSync(userData.password, salt);
+        userData.password = hash
+      }
       await this.queryRunner.manager.update(User, id, userData);
       await this.queryRunner.commitTransaction();
     }catch(error){
@@ -65,7 +70,7 @@ export class UserRepository extends Repository {
   async deleteUser(id){
     this.queryRunner.startTransaction();
     try{
-      await this.queryRunner.manager.update(User, id, { "level": 0 });
+      await this.queryRunner.manager.update(User, id, { "level": service.USUARIOS.inactive});
       await this.queryRunner.commitTransaction();
     }catch(error){
       console.error(error)
