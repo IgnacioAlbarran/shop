@@ -66,24 +66,6 @@ var UserRepository = exports.UserRepository = (_dec = (0, _typeorm.EntityReposit
   }, {
     key: "showUser",
     value: async function showUser(email) {}
-
-    // async signIn(req, res){
-    //   await this.find({ email: req.body.email }, (error, res) =>{
-    //     console.log(this)
-    //     if (error) res.status(500).send({message: error})
-    //     if (!user) res.status(404).send({ message: 'User not found'})
-
-    //     bcrypt.compare(req.body.password, secrets.SECRET_TOKEN, function(err, res) {
-    //       if(req.body.password != user.password){
-    //         res.json({success: false, message: 'passwords does not match'});
-    //       } else {
-    //         req.user = user;
-    //         res.send({ token: this.auth(req.user) })
-    //       }
-    //     });
-    //   })
-    // }
-
   }, {
     key: "getUsers",
     value: async function getUsers() {
@@ -110,16 +92,16 @@ var UserRepository = exports.UserRepository = (_dec = (0, _typeorm.EntityReposit
   }, {
     key: "deleteUser",
     value: async function deleteUser(id) {
-      await this.queryRunner.startTransaction();
+      this.queryRunner.startTransaction();
       try {
-        // const user = await this.queryRunner.manager.find({id: id})
-        await this.queryRunner.manager.remove(_User.User, { id: id });
+        await this.queryRunner.manager.update(_User.User, id, { "level": 0 });
         await this.queryRunner.commitTransaction();
       } catch (error) {
         console.error(error);
         await this.queryRunner.rollbackTransaction();
       } finally {
         await this.queryRunner.release();
+        return "Deleted user " + id;
       }
     }
   }, {

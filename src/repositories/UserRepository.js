@@ -41,23 +41,6 @@ export class UserRepository extends Repository {
 
   }
 
-  // async signIn(req, res){
-  //   await this.find({ email: req.body.email }, (error, res) =>{
-  //     console.log(this)
-  //     if (error) res.status(500).send({message: error})
-  //     if (!user) res.status(404).send({ message: 'User not found'})
-
-  //     bcrypt.compare(req.body.password, secrets.SECRET_TOKEN, function(err, res) {
-  //       if(req.body.password != user.password){
-  //         res.json({success: false, message: 'passwords does not match'});
-  //       } else {
-  //         req.user = user;
-  //         res.send({ token: this.auth(req.user) })
-  //       }
-  //     });
-  //   })
-  // }
-
   async getUsers(){
     try{
       return this.find()
@@ -80,16 +63,16 @@ export class UserRepository extends Repository {
   }
 
   async deleteUser(id){
-    await this.queryRunner.startTransaction();
+    this.queryRunner.startTransaction();
     try{
-      // const user = await this.queryRunner.manager.find({id: id})
-      await this.queryRunner.manager.remove(User, {id: id});
+      await this.queryRunner.manager.update(User, id, { "level": 0 });
       await this.queryRunner.commitTransaction();
     }catch(error){
       console.error(error)
       await this.queryRunner.rollbackTransaction();
     }finally{
-      await this.queryRunner.release();
+      await this.queryRunner.release()
+      return `Deleted user ${id}`
     }
   }
 

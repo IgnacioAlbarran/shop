@@ -27,7 +27,6 @@ userRouter.post('/signIn', async(req, res) => {
   await new getCustomRepository(UserRepository).find({ email: req.body.email })
     .then((user) => {
       bcrypt.compare(req.body.password, user[0].password, function(err, resultado) {
-        console.log(`resultado is : ${resultado}`)
         if (resultado == false) res.send({success: false, message: 'passwords does not match'});
         if (resultado == true) {
           req.user = user[0];
@@ -85,6 +84,12 @@ userRouter.put('/users/:id', auth.isAuth, async (req, res) => {
 
 // delete user
 userRouter.delete('/users/:id', async(req, res) =>{
+  let { id } = req.params
+  let user = req.body
+
+  if ((req.user != parseInt(id)) && (req.level < service.USUARIOS.admin)){
+    return res.status(403).send({ message: 'Forbidden' })
+  }
   try{
     const id = req.params.id
     await new getCustomRepository(UserRepository).deleteUser(id)

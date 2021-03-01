@@ -42,7 +42,6 @@ userRouter.post('/signUp', async function (req, res) {
 userRouter.post('/signIn', async function (req, res) {
   await new _typeorm.getCustomRepository(_UserRepository.UserRepository).find({ email: req.body.email }).then(function (user) {
     bcrypt.compare(req.body.password, user[0].password, function (err, resultado) {
-      console.log("resultado is : " + resultado);
       if (resultado == false) res.send({ success: false, message: 'passwords does not match' });
       if (resultado == true) {
         req.user = user[0];
@@ -107,9 +106,16 @@ userRouter.put('/users/:id', auth.isAuth, async function (req, res) {
 
 // delete user
 userRouter.delete('/users/:id', async function (req, res) {
+  var id = req.params.id;
+
+  var user = req.body;
+
+  if (req.user != parseInt(id) && req.level < service.USUARIOS.admin) {
+    return res.status(403).send({ message: 'Forbidden' });
+  }
   try {
-    var id = req.params.id;
-    await new _typeorm.getCustomRepository(_UserRepository.UserRepository).deleteUser(id).then(res.send("Deleted ID:  " + id));
+    var _id = req.params.id;
+    await new _typeorm.getCustomRepository(_UserRepository.UserRepository).deleteUser(_id).then(res.send("Deleted ID:  " + _id));
   } catch (error) {
     console.error(error);
   }
