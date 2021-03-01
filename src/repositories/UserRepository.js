@@ -37,6 +37,10 @@ export class UserRepository extends Repository {
     }
   }
 
+  async showUser(email){
+
+  }
+
   // async signIn(req, res){
   //   await this.find({ email: req.body.email }, (error, res) =>{
   //     console.log(this)
@@ -62,13 +66,10 @@ export class UserRepository extends Repository {
     }
   }
 
-  async updateUser(id, newuser){
+  async updateUser(id, userData){
     this.queryRunner.startTransaction();
     try{
-      await this.queryRunner.manager.delete(User, {id: id})
-      const user = newuser
-      user.id = id
-      await this.queryRunner.manager.save(user)
+      await this.queryRunner.manager.update(User, id, userData);
       await this.queryRunner.commitTransaction();
     }catch(error){
       console.error(error)

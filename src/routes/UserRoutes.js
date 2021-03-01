@@ -2,6 +2,7 @@ import app from "../index"
 import { getCustomRepository } from "typeorm";
 import { UserRepository } from "../repositories/UserRepository";
 import { User } from "../entities/User";
+import { runInNewContext } from "vm";
 
 const auth = require("../../middlewares/auth.js");
 const express = require('express')
@@ -13,7 +14,7 @@ const bcrypt = require('bcrypt');
 // create user
 userRouter.post('/signUp', async (req, res) => {
   try{
-    const { firstName, lastName, email, password , level} = req.body
+    const { firstName, lastName, email, password , level } = req.body
     const user =  await new getCustomRepository(UserRepository).signUp(firstName, lastName, email, password, level)
     return res.status(200).send({ token: await service.auth(user) })
   }catch(error){
@@ -29,7 +30,7 @@ userRouter.post('/signIn', async(req, res) => {
         console.log(`resultado is : ${resultado}`)
         if (resultado == false) res.send({success: false, message: 'passwords does not match'});
         if (resultado == true) {
-          req.user = user;
+          req.user = user[0];
           return res.send({ token: service.auth(req.user) })
         }
       });
@@ -39,7 +40,9 @@ userRouter.post('/signIn', async(req, res) => {
 
 // index user
 userRouter.get('/users', auth.isAuth, async(req, res) => {
-  if (req.level !== 3) return res.status(403).send({ message: 'Forbidden' })
+  if (req.level < service.USUARIOS.admin){
+    return res.status(403).send({ message: 'Forbidden' })
+  }
   try{
     const users =  await new getCustomRepository(UserRepository).getUsers()
       .then(users => res.send(users))
@@ -51,8 +54,12 @@ userRouter.get('/users', auth.isAuth, async(req, res) => {
 
 // show user
 userRouter.get('/users/:id', auth.isAuth, async (req, res) => {
+  let { id } = req.params
+  let user = req.user
+  if ((user != parseInt(id)) && (req.level < service.USUARIOS.admin)){
+    return res.status(403).send({ message: 'Forbidden' })
+  }
   try{
-    const { id } = req.params
     await new getCustomRepository(UserRepository).getUser(id)
       .then(user => res.send(user))
   }catch(error){
@@ -61,10 +68,14 @@ userRouter.get('/users/:id', auth.isAuth, async (req, res) => {
 })
 
 // update user
-userRouter.put('/users/:id', async (req, res) => {
+userRouter.put('/users/:id', auth.isAuth, async (req, res) => {
+  let { id } = req.params
+  let user = req.body
+
+  if ((req.user != parseInt(id)) && (req.level < service.USUARIOS.admin)){
+    return res.status(403).send({ message: 'Forbidden' })
+  }
   try{
-    const { id } = req.params
-    const user = req.body
     await new getCustomRepository(UserRepository).updateUser(id, user)
       .then(user => res.send(user))
   }catch(error){

@@ -13,22 +13,15 @@ const secrets = require('../secrets')
     return jwt.encode(payload, secrets.SECRET_TOKEN)
   }
 
-  // function signIn(req, res){
-  //   UserRepository.find({ email: req.body.email }, (error, res) =>{
-  //     if (error) res.status(500).send({message: error})
-  //     if (!user) res.status(404).send({ message: 'User not found'})
-
-  //     bcrypt.compare(req.body.password, secrets.SECRET_TOKEN, function(err, res) {
-  //       if(req.body.password != user.password){
-  //         res.json({success: false, message: 'passwords does not match'});
-  //       } else {
-  //         req.user = user;
-  //         res.send({ token: this.auth(req.user) })
-  //       }
-  //     });
-  //   })
-  // }
+  const USUARIOS = {
+    "inactive": 0,
+    "user": 1,
+    "seller": 2,
+    "admin": 3,
+    "superadmin": 4
+  }
 
 module.exports = {
-  auth
+  auth,
+  USUARIOS
 }

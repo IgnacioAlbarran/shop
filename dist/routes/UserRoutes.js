@@ -10,6 +10,8 @@ var _UserRepository = require("../repositories/UserRepository");
 
 var _User = require("../entities/User");
 
+var _vm = require("vm");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var auth = require("../../middlewares/auth.js");
@@ -43,7 +45,7 @@ userRouter.post('/signIn', async function (req, res) {
       console.log("resultado is : " + resultado);
       if (resultado == false) res.send({ success: false, message: 'passwords does not match' });
       if (resultado == true) {
-        req.user = user;
+        req.user = user[0];
         return res.send({ token: service.auth(req.user) });
       }
     });
@@ -53,8 +55,10 @@ userRouter.post('/signIn', async function (req, res) {
 });
 
 // index user
-userRouter.get('/users', auth.isAdmin, async function (req, res) {
-  if (req.level !== 3) return res.status(403).send({ message: 'Forbidden' });
+userRouter.get('/users', auth.isAuth, async function (req, res) {
+  if (req.level < service.USUARIOS.admin) {
+    return res.status(403).send({ message: 'Forbidden' });
+  }
   try {
     var users = await new _typeorm.getCustomRepository(_UserRepository.UserRepository).getUsers().then(function (users) {
       return res.send(users);
@@ -67,10 +71,14 @@ userRouter.get('/users', auth.isAdmin, async function (req, res) {
 });
 
 // show user
-userRouter.get('/users/:id', async function (req, res) {
-  try {
-    var id = req.params.id;
+userRouter.get('/users/:id', auth.isAuth, async function (req, res) {
+  var id = req.params.id;
 
+  var user = req.user;
+  if (user != parseInt(id) && req.level < service.USUARIOS.admin) {
+    return res.status(403).send({ message: 'Forbidden' });
+  }
+  try {
     await new _typeorm.getCustomRepository(_UserRepository.UserRepository).getUser(id).then(function (user) {
       return res.send(user);
     });
@@ -80,11 +88,15 @@ userRouter.get('/users/:id', async function (req, res) {
 });
 
 // update user
-userRouter.put('/users/:id', async function (req, res) {
-  try {
-    var id = req.params.id;
+userRouter.put('/users/:id', auth.isAuth, async function (req, res) {
+  var id = req.params.id;
 
-    var user = req.body;
+  var user = req.body;
+
+  if (req.user != parseInt(id) && req.level < service.USUARIOS.admin) {
+    return res.status(403).send({ message: 'Forbidden' });
+  }
+  try {
     await new _typeorm.getCustomRepository(_UserRepository.UserRepository).updateUser(id, user).then(function (user) {
       return res.send(user);
     });

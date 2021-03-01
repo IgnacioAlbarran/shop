@@ -63,6 +63,9 @@ var UserRepository = exports.UserRepository = (_dec = (0, _typeorm.EntityReposit
         await this.queryRunner.release();
       }
     }
+  }, {
+    key: "showUser",
+    value: async function showUser(email) {}
 
     // async signIn(req, res){
     //   await this.find({ email: req.body.email }, (error, res) =>{
@@ -92,13 +95,10 @@ var UserRepository = exports.UserRepository = (_dec = (0, _typeorm.EntityReposit
     }
   }, {
     key: "updateUser",
-    value: async function updateUser(id, newuser) {
+    value: async function updateUser(id, userData) {
       this.queryRunner.startTransaction();
       try {
-        await this.queryRunner.manager.delete(_User.User, { id: id });
-        var user = newuser;
-        user.id = id;
-        await this.queryRunner.manager.save(user);
+        await this.queryRunner.manager.update(_User.User, id, userData);
         await this.queryRunner.commitTransaction();
       } catch (error) {
         console.error(error);

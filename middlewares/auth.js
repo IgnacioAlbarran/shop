@@ -11,12 +11,7 @@ function isAuth(req, res, next){
   }
 
   const token = req.headers.authorization;
-  console.log(token)
-  console.log(secret.SECRET_TOKEN)
   const payload = jwt_decode(token, secret.SECRET_TOKEN)
-  console.log(payload)
-  console.log(payload)
-
   if (payload.exp <= moment().unix()){
     res.status(401).send({ message: 'Token expired' })
   }
