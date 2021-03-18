@@ -1,4 +1,5 @@
-const { Entity, PrimaryGeneratedColumn, Column, Index } = require("typeorm");
+const { Entity, PrimaryGeneratedColumn, DeleteDateColumn, Column, Index, OneToMany } = require("typeorm");
+import { Order } from './Order'
 
 @Entity()
   export class User{
@@ -20,4 +21,10 @@ const { Entity, PrimaryGeneratedColumn, Column, Index } = require("typeorm");
 
     @Column({type: 'integer', default: 1})
     level = undefined
+
+    @OneToMany(type => Order, order => order.user)
+    orders = Order;
+
+    @DeleteDateColumn()
+    deletedAt = undefined;
   }

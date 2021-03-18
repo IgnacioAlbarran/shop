@@ -1,8 +1,5 @@
-import app from "../index"
 import { getCustomRepository } from "typeorm";
 import { UserRepository } from "../repositories/UserRepository";
-import { User } from "../entities/User";
-import { runInNewContext } from "vm";
 
 const auth = require("../../middlewares/auth.js");
 const express = require('express')

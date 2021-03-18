@@ -1,18 +1,8 @@
 "use strict";
 
-var _index = require("../index");
-
-var _index2 = _interopRequireDefault(_index);
-
 var _typeorm = require("typeorm");
 
 var _UserRepository = require("../repositories/UserRepository");
-
-var _User = require("../entities/User");
-
-var _vm = require("vm");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var auth = require("../../middlewares/auth.js");
 var express = require('express');

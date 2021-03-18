@@ -26,6 +26,7 @@ var bcrypt = require('bcrypt');
 var salt = bcrypt.genSaltSync(10);
 var myPlaintextPassword = 's0/\/\P4$$w0rD';
 var someOtherPlaintextPassword = 'not_bacon';
+var moment = require('moment');
 
 var UserRepository = exports.UserRepository = (_dec = (0, _typeorm.EntityRepository)(_User.User), _dec(_class = function (_Repository) {
   _inherits(UserRepository, _Repository);
@@ -65,9 +66,6 @@ var UserRepository = exports.UserRepository = (_dec = (0, _typeorm.EntityReposit
       }
     }
   }, {
-    key: "showUser",
-    value: async function showUser(email) {}
-  }, {
     key: "getUsers",
     value: async function getUsers() {
       try {
@@ -98,15 +96,17 @@ var UserRepository = exports.UserRepository = (_dec = (0, _typeorm.EntityReposit
     key: "deleteUser",
     value: async function deleteUser(id) {
       this.queryRunner.startTransaction();
+      var date = new Date();
+      var timestamp = date.toLocaleString();
       try {
-        await this.queryRunner.manager.update(_User.User, id, { "level": service.USUARIOS.inactive });
+        await this.queryRunner.manager.update(_User.User, id, { "level": service.USUARIOS.inactive, "deletedAt": timestamp });
         await this.queryRunner.commitTransaction();
       } catch (error) {
         console.error(error);
         await this.queryRunner.rollbackTransaction();
       } finally {
         await this.queryRunner.release();
-        return "Deleted user " + id;
+        return "Deleted user " + id + " - " + moment.utc;
       }
     }
   }, {

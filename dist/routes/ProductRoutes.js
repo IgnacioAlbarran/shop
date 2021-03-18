@@ -8,8 +8,6 @@ var _typeorm = require("typeorm");
 
 var _ProductRepository = require("../repositories/ProductRepository");
 
-var _moment = require("moment");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var express = require('express');

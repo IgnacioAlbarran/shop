@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 const salt = bcrypt.genSaltSync(10);
 const myPlaintextPassword = 's0/\/\P4$$w0rD';
 const someOtherPlaintextPassword = 'not_bacon';
+const moment = require('moment');
 
 @EntityRepository(User)
 export class UserRepository extends Repository {
@@ -38,10 +39,6 @@ export class UserRepository extends Repository {
     }
   }
 
-  async showUser(email){
-
-  }
-
   async getUsers(){
     try{
       return this.find()
@@ -69,15 +66,17 @@ export class UserRepository extends Repository {
 
   async deleteUser(id){
     this.queryRunner.startTransaction();
+    const date = new Date
+    const timestamp = date.toLocaleString()
     try{
-      await this.queryRunner.manager.update(User, id, { "level": service.USUARIOS.inactive});
+      await this.queryRunner.manager.update(User, id, { "level": service.USUARIOS.inactive, "deletedAt": timestamp});
       await this.queryRunner.commitTransaction();
     }catch(error){
       console.error(error)
       await this.queryRunner.rollbackTransaction();
     }finally{
       await this.queryRunner.release()
-      return `Deleted user ${id}`
+      return `Deleted user ${id} - ${moment.utc}`
     }
   }
 

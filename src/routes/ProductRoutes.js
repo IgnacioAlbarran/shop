@@ -1,7 +1,6 @@
 import app from "../index"
 import { EntityRepository, Repository, getConnection, getCustomRepository, transactionEntityManager } from "typeorm";
 import { ProductRepository } from "../repositories/ProductRepository";
-import { min } from "moment";
 
 const express = require('express');
 const productRouter = express.Router();
