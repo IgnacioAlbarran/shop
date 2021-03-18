@@ -10,19 +10,31 @@ var _typeorm = require("typeorm");
 
 var _UserRepository = require("./repositories/UserRepository");
 
+var _process = require("process");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import { userRouter } from "./routes/UserRoutes";
-
 var app = (0, _express2.default)();
+var morgan = require('morgan');
+var cors = require('cors');
 var bodyParser = require('body-parser');
-app.use(bodyParser.json());
 var userRouter = require("./routes/UserRoutes");
 var productRouter = require("./routes/ProductRoutes");
+var orderRouter = require("./routes/OrderRoutes");
+
+// middlewares
+
+app.use(morgan('dev'));
+app.use(cors('dev'));
+app.use(bodyParser.json());
+
+// connection
 
 var connection = (0, _typeorm.createConnection)().then(console.log('-- Connection established')).catch(function (error) {
     return console.error(error);
 });
+
+// routes
 
 app.get('/', function (req, res) {
     res.send("En ruta principal de la app");
@@ -32,6 +44,8 @@ app.get('/', function (req, res) {
 app.use('/', userRouter);
 // we get product routes
 app.use('/', productRouter);
+// we get order routes
+app.use('/', orderRouter);
 
 app.listen(3000, function () {
     try {
