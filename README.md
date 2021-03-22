@@ -8,24 +8,24 @@ Como se ha solicitado, está montado en NodeJs con Express. La base de datos ele
 ## Feature 1 : Gestión Usuario
 
 Requisitos Mínimos:
-● Validación por Token
-Usamos el módulo JWT, concretamente jwt-simple para codificar.
-Decodificamos con jwt-decode.
-
-● Endpoint de Login
-● Endpoint de Registro
-Es la ruta " /signUp "
-Le pasamos por el body los campos: firstName(varchar), lastName(varchar), email(varchar), password(varchar) y level(integer)
-La password la encriptamos y guardamos encriptada en la DB con el módulo Bcrypt.
-El level lo usamos para establecer los distintos tipos de usuario:
-0 -> Inactive
-1 -> User
-2 -> Seller
-3 -> Administrator
-4 -> Superadmin
-
-● Endpoint de Perfil (Datos de Usuario)
-
-Extra points:
--Roles Administrador / Usuario / Vendedor
--Endpoints modificar datos de Usuario
+● Validación por Token <br>
+Usamos el módulo JWT, concretamente jwt-simple para codificar. <br>
+Decodificamos con jwt-decode. <br>
+<br>
+● Endpoint de Login <br>
+● Endpoint de Registro <br>
+Es la ruta " /signUp " <br>
+Le pasamos por el body los campos: firstName(varchar), lastName(varchar), email(varchar), password(varchar) y level(integer) <br>
+La password la encriptamos y guardamos encriptada en la DB con el módulo Bcrypt. <br>
+El level lo usamos para establecer los distintos tipos de usuario: <br>
+0 -> Inactive <br>
+1 -> User <br>
+2 -> Seller <br>
+3 -> Administrator <br>
+4 -> Superadmin <br>
+<br>
+● Endpoint de Perfil (Datos de Usuario) <br>
+<br>
+Extra points: <br>
+-Roles Administrador / Usuario / Vendedor <br>
+-Endpoints modificar datos de Usuario <br>
