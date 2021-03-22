@@ -7,12 +7,15 @@ Como se ha solicitado, está montado en NodeJs con Express. La base de datos ele
 
 ## Feature 1 : Gestión Usuario <br>
 
-Requisitos Mínimos: <br><br>
+**Requisitos Mínimos:** <br><br>
 ● Validación por Token <br>
 Usamos el módulo JWT, concretamente jwt-simple para codificar. <br>
 Decodificamos con jwt-decode. <br>
 <br>
-● Endpoint de Login <br><br>
+● Endpoint de Login <br>
+El endpoint es " /signUp "<br>
+En el body pasaremos email y password, que si coinciden con los del usuario <br>
+<br>
 ● Endpoint de Registro <br>
 Es la ruta " /signUp " <br>
 Le pasamos por el body los campos: firstName(varchar), lastName(varchar), email(varchar), password(varchar) y level(integer) <br>
@@ -25,7 +28,25 @@ El level lo usamos para establecer los distintos tipos de usuario: <br>
 4 -> Superadmin <br>
 <br>
 ● Endpoint de Perfil (Datos de Usuario) <br>
+Es el endpoint '/users/:id'  <br>
+En el authorise le tenemos que pasar el token. <br>
+La ruta solo es accesible para usuarios que o bien sean la ID del perfil a consultar o nivel admin o superior. <br>
 <br>
-Extra points: <br>
+**Extra points:** <br>
 -Roles Administrador / Usuario / Vendedor <br>
+Se han creado para ello los distintos niveles de usuario y cada usuario tiene un nivel que le identifica. Por defecto al crearse es 1. <br>
 -Endpoints modificar datos de Usuario <br>
+El endpoint de cambiar datos de usuario es '/users/:id' <br>
+<br>
+<br>
+## Feature 2 : Gestión Product <br>
+<br>
+**Requisitos Mínimos:** <br>
+● Endpoints añadir, eliminar, modificar producto (vendedor). <br>
+● Endpoint muestra all products <br>
+● Endpoints productos filtro (más vendidos, precio, título...) <br>
+<br>
+**Extra points:** <br>
+● Endpoint de productos por vendedor. <br>
+● Endpoint de productos por categoría. <br>
+<br>
