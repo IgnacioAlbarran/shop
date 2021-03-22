@@ -7,12 +7,12 @@ Como se ha solicitado, está montado en NodeJs con Express. La base de datos ele
 
 ## Feature 1 : Gestión Usuario <br>
 
-Requisitos Mínimos: <br>
+Requisitos Mínimos: <br><br>
 ● Validación por Token <br>
 Usamos el módulo JWT, concretamente jwt-simple para codificar. <br>
 Decodificamos con jwt-decode. <br>
 <br>
-● Endpoint de Login <br>
+● Endpoint de Login <br><br>
 ● Endpoint de Registro <br>
 Es la ruta " /signUp " <br>
 Le pasamos por el body los campos: firstName(varchar), lastName(varchar), email(varchar), password(varchar) y level(integer) <br>
