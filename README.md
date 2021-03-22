@@ -1,13 +1,13 @@
-# Reto Final Bootcamp Backend GeeksHubs: E-Commerce "Shop"
+# Reto Final Bootcamp Backend GeeksHubs: E-Commerce "Shop" <br>
 
-Como se ha solicitado, está montado en NodeJs con Express. La base de datos elegida es SQL (MariaDB) usando un container de Docker con docker-compose.
+Como se ha solicitado, está montado en NodeJs con Express. La base de datos elegida es SQL (MariaDB) usando un container de Docker con docker-compose. <br>
 
-"npm run dev" para arrancar la API
+"npm run dev" para arrancar la API <br>
 
 
-## Feature 1 : Gestión Usuario
+## Feature 1 : Gestión Usuario <br>
 
-Requisitos Mínimos:
+Requisitos Mínimos: <br>
 ● Validación por Token <br>
 Usamos el módulo JWT, concretamente jwt-simple para codificar. <br>
 Decodificamos con jwt-decode. <br>
