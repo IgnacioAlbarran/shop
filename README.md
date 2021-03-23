@@ -13,8 +13,8 @@ Usamos el módulo JWT, concretamente jwt-simple para codificar. <br>
 Decodificamos con jwt-decode. <br>
 <br>
 ● Endpoint de Login <br>
-El endpoint es " /signUp "<br>
-En el body pasaremos email y password, que si coinciden con los del usuario <br>
+El endpoint es " /signIn "<br>
+En el body pasaremos email y password, que si coinciden con los del usuario. Devuelve token.
 <br>
 ● Endpoint de Registro <br>
 Es la ruta " /signUp " <br>
@@ -27,10 +27,19 @@ El level lo usamos para establecer los distintos tipos de usuario: <br>
 3 -> Administrator <br>
 4 -> Superadmin <br>
 <br>
+Devuelve token cifrado con HS256 y en cuyo payload metemos la 'id de usuario, el 'level' del usuario (para los permisos) además de fecha expedicion y de validez <br>
+```
+{
+  "sub": 178,
+  "lev": 3,
+  "iat": 1616484090,
+  "exp": 1617690090
+}
+```
 ● Endpoint de Perfil (Datos de Usuario) <br>
 Es el endpoint '/users/:id'  <br>
 En el authorise le tenemos que pasar el token. <br>
-La ruta solo es accesible para usuarios que o bien sean la ID del perfil a consultar o nivel admin o superior. <br>
+La ruta solo es accesible para usuarios que o bien sean la id del perfil a consultar o nivel admin o superior. <br>
 <br>
 **Extra points:** <br>
 -Roles Administrador / Usuario / Vendedor <br>
