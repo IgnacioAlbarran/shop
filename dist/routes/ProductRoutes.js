@@ -1,19 +1,29 @@
 "use strict";
 
-var _index = require("../index");
-
-var _index2 = _interopRequireDefault(_index);
-
 var _typeorm = require("typeorm");
 
 var _ProductRepository = require("../repositories/ProductRepository");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _UserRepository = require("../repositories/UserRepository");
+
+var swaggerJsDoc = require('swagger-jsdoc');
+var swaggerUI = require("swagger-ui-express");
+
 
 var express = require('express');
 var productRouter = express.Router();
+var auth = require("../../middlewares/auth.js");
 
 // index
+/**
+ * @swagger
+ * /products:
+ *  get:
+ *     description: Use to get the list of products
+ *     responses:
+ *       '200':
+ *         description: successful response
+ */
 productRouter.get('/products', async function (req, res) {
   var products = await new _typeorm.getCustomRepository(_ProductRepository.ProductRepository).productList().then(function (products) {
     return res.send(products);
@@ -56,10 +66,16 @@ productRouter.get('/products/:id', async function (req, res) {
 });
 
 // update
-productRouter.put('/products/:id', async function (req, res) {
+productRouter.put('/products/:id', auth.isAuth, async function (req, res) {
   var id = req.params.id;
 
   var newAttributes = req.body;
+  var user = req.user;
+  var level = req.level;
+  var product = await new _typeorm.getCustomRepository(_ProductRepository.ProductRepository).getProduct(id);
+  if ((level < 2 || product.seller != user) && level < 3) {
+    return res.status(403).send({ message: 'Forbidden' });
+  }
   try {
     await new _typeorm.getCustomRepository(_ProductRepository.ProductRepository).updateProduct(id, newAttributes).then(function (product) {
       return res.send(product);

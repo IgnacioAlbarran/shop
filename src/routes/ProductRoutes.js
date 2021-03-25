@@ -1,11 +1,24 @@
-import app from "../index"
 import { EntityRepository, Repository, getConnection, getCustomRepository, transactionEntityManager } from "typeorm";
 import { ProductRepository } from "../repositories/ProductRepository";
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUI = require("swagger-ui-express");
+import { UserRepository } from "../repositories/UserRepository";
 
 const express = require('express');
 const productRouter = express.Router();
+const auth = require("../../middlewares/auth.js");
+
 
 // index
+/**
+ * @swagger
+ * /products:
+ *  get:
+ *     description: Use to get the list of products
+ *     responses:
+ *       '200':
+ *         description: successful response
+ */
 productRouter.get('/products', async(req, res) => {
   const products = await new getCustomRepository(ProductRepository).productList()
     .then(products => res.send(products))
@@ -35,9 +48,15 @@ productRouter.get('/products/:id', async(req, res) => {
 })
 
 // update
-productRouter.put('/products/:id', async(req, res) =>{
+productRouter.put('/products/:id', auth.isAuth, async(req, res) =>{
   const { id } = req.params
   const newAttributes = req.body
+  const user = req.user;
+  const level = req.level;
+  const product = await new getCustomRepository(ProductRepository).getProduct(id)
+  if ((level < 2 || product.seller != user) && (level < 3)){
+    return res.status(403).send({message: 'Forbidden'})
+  }
   try{
     await new getCustomRepository(ProductRepository).updateProduct(id, newAttributes)
       .then(product => res.send(product))

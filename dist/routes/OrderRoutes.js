@@ -20,21 +20,31 @@ orderRouter.post('/orders', auth.isAuth, async function (req, res) {
     return res.status(403).send({ message: 'You must be an active user to buy, please register' });
   }
   try {
-    var _req$body = req.body,
-        _user = _req$body.user,
-        orderLines = _req$body.orderLines;
+    var orderLines = req.body.orderLines;
 
     var productId = orderLines.productId;
     var quantity = orderLines.quantity;
-
+    var usuario = await new _typeorm.getCustomRepository(_UserRepository.UserRepository).findOne(user);
+    console.log("el user es : " + JSON.stringify(usuario));
     var lines = await new _typeorm.getCustomRepository(_OrderLineRepository.OrderLineRepository).createOrderLines(productId, quantity);
-    console.log("lines are :  " + lines);
-    var usuario = await new _typeorm.getCustomRepository(_UserRepository.UserRepository).getUser(184);
-    console.log(usuario);
-    await new _typeorm.getCustomRepository(_OrderRepository.OrderRepository).createOrder(_user, lines);
+    await new _typeorm.getCustomRepository(_OrderRepository.OrderRepository).createOrder(user, lines);
     return res.status(200).send({ message: 'Order processed' });
   } catch (error) {
     res.status(500).send({ message: error });
+  }
+});
+
+// list orders from one user
+
+orderRouter.get('/orders', auth.isAuth, async function (req, res) {
+  var user = req.user;
+  var level = req.level;
+
+  try {
+    var orders = await new _typeorm.getCustomRepository(_OrderRepository.OrderRepository).ordersByUser(user);
+    res.status(200).send(orders);
+  } catch (error) {
+    console.error(error);
   }
 });
 

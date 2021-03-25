@@ -67,7 +67,7 @@ var Order = exports.Order = (_dec = Entity(), _dec2 = PrimaryGeneratedColumn(), 
   return _User.User;
 }, function (user) {
   return user.orders;
-}, { eager: true, cascade: true }), _dec4 = JoinColumn(), _dec5 = OneToMany(function () {
+}, { eager: true, cascade: true }), _dec4 = JoinColumn({ name: 'userId' }), _dec5 = OneToMany(function () {
   return _OrderLine.OrderLine;
 }, function (orderLine) {
   return orderLine.order;
@@ -92,6 +92,6 @@ var Order = exports.Order = (_dec = Entity(), _dec2 = PrimaryGeneratedColumn(), 
 }), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'orderLines', [_dec5], {
   enumerable: true,
   initializer: function initializer() {
-    return _OrderLine.OrderLine;
+    return undefined;
   }
 })), _class2)) || _class);

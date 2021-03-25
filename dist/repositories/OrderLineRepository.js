@@ -44,9 +44,9 @@ var OrderLineRepository = exports.OrderLineRepository = (_dec = EntityRepository
         var orderLine = new _OrderLine.OrderLine();
         orderLine.productId = productId;
         orderLine.quantity = quantity;
-
         await this.queryRunner.manager.save(orderLine);
         await this.queryRunner.commitTransaction();
+        return orderLine;
       } catch (error) {
         console.error(error);
         await this.queryRunner.rollbackTransaction();

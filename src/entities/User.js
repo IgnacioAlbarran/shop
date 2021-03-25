@@ -1,4 +1,4 @@
-const { Entity, PrimaryGeneratedColumn, DeleteDateColumn, Column, Index, OneToMany } = require("typeorm");
+const { Entity, PrimaryGeneratedColumn, DeleteDateColumn, Column, Index, OneToMany, JoinColumn } = require("typeorm");
 import { Order } from './Order'
 
 @Entity()
@@ -22,7 +22,8 @@ import { Order } from './Order'
     @Column({type: 'integer', default: 1})
     level = undefined
 
-    @OneToMany(type => Order, order => order.user)
+    @OneToMany(() => Order, order => order.user)
+    @JoinColumn()
     orders = Order;
 
     @DeleteDateColumn()

@@ -1,8 +1,6 @@
 import "reflect-metadata";
 import express from 'express'
 import {createConnection, getCustomRepository} from "typeorm";
-import { UserRepository } from "./repositories/UserRepository";
-import { ppid } from "process";
 const app = express();
 const morgan = require('morgan')
 const cors = require('cors')
@@ -10,15 +8,42 @@ const bodyParser = require('body-parser');
 const userRouter = require("./routes/UserRoutes");
 const productRouter = require("./routes/ProductRoutes");
 const orderRouter = require("./routes/OrderRoutes");
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUi = require("swagger-ui-express");
 
 // middlewares
-
 app.use(morgan('dev'));
 app.use(cors('dev'))
 app.use(bodyParser.json());
 
-// connection
+// swagger to document the API
+const swaggerOptions = {
+    swaggerDefinition:{
+        info:{
+            title: 'Shop API',
+            version: '1.0.0',
+            description: 'API de e-commerce para venta de consumibles de informática',
+            servers: ["http://localhost:3000"]
+        }
+    },
+    basePath: "/",
+    apis: ['index.js']
+}
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
+//routes
+/**
+* @swagger
+* /:
+*   get:
+*     description: Use to get the list of products
+*     responses:
+*       '200':
+*         description: successful response
+*/
+
+// connection
 const connection = createConnection()
     .then(console.log('-- Connection established'))
     .catch(error => console.error(error))

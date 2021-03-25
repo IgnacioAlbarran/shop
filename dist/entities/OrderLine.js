@@ -82,7 +82,7 @@ var OrderLine = exports.OrderLine = (_dec = Entity(), _dec2 = PrimaryGeneratedCo
 }), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'order', [_dec3], {
   enumerable: true,
   initializer: function initializer() {
-    return _Order.Order;
+    return undefined;
   }
 }), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'productId', [_dec4], {
   enumerable: true,

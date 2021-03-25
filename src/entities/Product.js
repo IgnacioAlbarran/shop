@@ -12,9 +12,6 @@ const { Entity, PrimaryGeneratedColumn, Column } = require("typeorm");
     brand = '';
 
     @Column('integer')
-    seller = '';
-
-    @Column('integer')
     category = undefined;
 
     @Column('integer')
@@ -25,4 +22,7 @@ const { Entity, PrimaryGeneratedColumn, Column } = require("typeorm");
 
     @Column('varchar')
     description = '';
+
+    @Column('integer')
+    seller = '';
   }

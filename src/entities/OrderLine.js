@@ -7,7 +7,7 @@ import { Order } from './Order'
     id = undefined;
 
     @ManyToOne(type => Order, order => order.orderLines, { cascade: true })
-    order = Order;
+    order = undefined;
 
     @Column('integer')
     productId = undefined;

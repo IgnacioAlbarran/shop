@@ -16,14 +16,14 @@ export class OrderLineRepository extends Repository{
       let orderLine = new OrderLine;
       orderLine.productId = productId;
       orderLine.quantity = quantity;
-
       await this.queryRunner.manager.save(orderLine)
       await this.queryRunner.commitTransaction()
+      return orderLine
     }catch(error){
       console.error(error)
       await this.queryRunner.rollbackTransaction();
     }finally{
-      await this.queryRunner.release();
+      await this.queryRunner.release()
     }
   }
 }

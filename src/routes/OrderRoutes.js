@@ -1,4 +1,4 @@
-import { getCustomRepository } from "typeorm";
+import { getCustomRepository, Repository } from "typeorm";
 import { OrderLineRepository } from "../repositories/OrderLineRepository";
 import { OrderRepository } from "../repositories/OrderRepository";
 import { UserRepository } from "../repositories/UserRepository";
@@ -15,18 +15,30 @@ orderRouter.post('/orders', auth.isAuth, async (req, res) => {
     return res.status(403).send({ message: 'You must be an active user to buy, please register' })
   }
   try{
-    const { user, orderLines } = req.body
+    const { orderLines } = req.body
     const productId = orderLines.productId
     const quantity = orderLines.quantity
-
+    const usuario = await new getCustomRepository(UserRepository).findOne(user)
+    console.log(`el user es : ${JSON.stringify(usuario)}`)
     const lines = await new getCustomRepository(OrderLineRepository).createOrderLines(productId, quantity)
-    console.log(`lines are :  ${lines}`)
-    let usuario = await new getCustomRepository(UserRepository).getUser(184)
-    console.log(usuario)
     await new getCustomRepository(OrderRepository).createOrder(user, lines)
     return res.status(200).send({ message: 'Order processed' })
   }catch(error){
     res.status(500).send({message: error});
+  }
+})
+
+// list orders from one user
+
+orderRouter.get('/orders', auth.isAuth, async (req, res) => {
+  const user = req.user
+  const level = req.level
+
+  try{
+    const orders = await new getCustomRepository(OrderRepository).ordersByUser(user)
+    res.status(200).send(orders)
+  }catch(error){
+    console.error(error)
   }
 })
 

@@ -7,10 +7,10 @@ import { User } from './User'
     @PrimaryGeneratedColumn()
     id = undefined;
 
-    @ManyToOne(() => User, user => user.orders, {  eager: true, cascade: true })
-    @JoinColumn()
+    @ManyToOne(() => User, user => user.orders, { eager: true, cascade: true })
+    @JoinColumn({name: 'userId'})
     user = User;
 
     @OneToMany(() => OrderLine, orderLine => orderLine.order)
-    orderLines = OrderLine;
+    orderLines = undefined;
   }
