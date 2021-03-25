@@ -95,4 +95,16 @@ Mostrar por vendedor -->  GET '/listBySeller' , en el body le pasaremos la id de
 Mostrar todos los productos por categoría -->  GET '/listByCategory/:category'<br>
 <br>
 <br>
-
+## Feature 3 : Gestión Compras<br>
+<br>
+**Requisitos mínimos:**<br>
+● Endpoint de añadir compra.<br>
+● Endpoint muestra todas las compras.<br>
+<br>
+Extra points:<br>
+● Endpoint de compras por usuario. (modo
+factura)<br>
+<br>
+Requisitos Extra:<br>
+● Endpoint modificación datos factura.<br>
+(modificación hecha por el vendedor).<br>
