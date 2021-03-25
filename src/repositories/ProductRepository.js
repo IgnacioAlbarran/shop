@@ -44,18 +44,10 @@ export class ProductRepository extends Repository{
   }
 
   async updateProduct(id, body){
+    const product = await this.findOne({id: id})
     await this.queryRunner.startTransaction()
     try{
-      await this.queryRunner.manager.remove(Product, {id: id})
-      const { name, brand, category, price, photo, description } = body
-      const product = new Product;
-      product.id = id;
-      product.name = name;
-      product.brand = brand;
-      product.category = category;
-      product.price = price;
-      product.photo = photo;
-      product.description = description;
+      await this.merge(product, body)
       await this.queryRunner.manager.save(product)
       await this.queryRunner.commitTransaction()
     }catch(error){
