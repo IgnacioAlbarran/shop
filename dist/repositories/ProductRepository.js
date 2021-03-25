@@ -86,6 +86,7 @@ var ProductRepository = exports.ProductRepository = (_dec = EntityRepository(_Pr
         console.error(error);
       } finally {
         await this.queryRunner.release();
+        return product;
       }
     }
   }, {

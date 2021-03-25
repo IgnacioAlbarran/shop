@@ -44,7 +44,7 @@ export class ProductRepository extends Repository{
   }
 
   async updateProduct(id, body){
-    const product = await this.findOne({id: id})
+    let product = await this.findOne({id: id})
     await this.queryRunner.startTransaction()
     try{
       await this.merge(product, body)
@@ -54,6 +54,7 @@ export class ProductRepository extends Repository{
       console.error(error)
     }finally{
       await this.queryRunner.release()
+      return product
     }
   }
 
