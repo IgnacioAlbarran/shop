@@ -76,24 +76,10 @@ var ProductRepository = exports.ProductRepository = (_dec = EntityRepository(_Pr
   }, {
     key: "updateProduct",
     value: async function updateProduct(id, body) {
+      var product = await this.findOne({ id: id });
       await this.queryRunner.startTransaction();
       try {
-        await this.queryRunner.manager.remove(_Product.Product, { id: id });
-        var name = body.name,
-            brand = body.brand,
-            category = body.category,
-            price = body.price,
-            photo = body.photo,
-            description = body.description;
-
-        var product = new _Product.Product();
-        product.id = id;
-        product.name = name;
-        product.brand = brand;
-        product.category = category;
-        product.price = price;
-        product.photo = photo;
-        product.description = description;
+        await this.merge(product, body);
         await this.queryRunner.manager.save(product);
         await this.queryRunner.commitTransaction();
       } catch (error) {
