@@ -34,9 +34,18 @@ orderRouter.post('/orders', auth.isAuth, async function (req, res) {
   }
 });
 
-// list orders from one user
-
+// list all the orders
 orderRouter.get('/orders', auth.isAuth, async function (req, res) {
+  try {
+    var orders = await new _typeorm.getCustomRepository(_OrderRepository.OrderRepository).allOrders();
+    res.status(200).send(orders);
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+// list orders from one user
+orderRouter.get('/ordersByUser', auth.isAuth, async function (req, res) {
   var user = req.user;
   var level = req.level;
 

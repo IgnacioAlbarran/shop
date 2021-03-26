@@ -69,6 +69,16 @@ var OrderRepository = exports.OrderRepository = (_dec = EntityRepository(_Order.
         console.error(error);
       }
     }
+  }, {
+    key: "allOrders",
+    value: async function allOrders() {
+      try {
+        var orders = await this.find();
+        return orders;
+      } catch (error) {
+        console.error(error);
+      }
+    }
   }]);
 
   return OrderRepository;

@@ -28,9 +28,20 @@ orderRouter.post('/orders', auth.isAuth, async (req, res) => {
   }
 })
 
-// list orders from one user
-
+// list all the orders
 orderRouter.get('/orders', auth.isAuth, async (req, res) => {
+  try{
+    const orders = await new getCustomRepository(OrderRepository).allOrders()
+    res.status(200).send(orders)
+  }catch(error){
+    console.error(error)
+  }
+})
+
+
+
+// list orders from one user
+orderRouter.get('/ordersByUser', auth.isAuth, async (req, res) => {
   const user = req.user
   const level = req.level
 

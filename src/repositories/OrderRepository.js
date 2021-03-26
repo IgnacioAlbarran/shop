@@ -38,4 +38,15 @@ export class OrderRepository extends Repository{
       console.error(error)
     }
   }
+
+  async allOrders(){
+    try{
+      const orders = await this.find()
+      return orders
+    }catch(error){
+      console.error(error)
+    }
+  }
 }
+
+
