@@ -98,12 +98,15 @@ Mostrar todos los productos por categoría -->  GET '/listByCategory/:category'<
 ## Feature 3 : Gestión Compras<br>
 <br>**Requisitos mínimos:**<br><br>
 ● Endpoint de añadir compra.<br>
+Endpoint -->  POST '/orders' <br>
 
 ● Endpoint muestra todas las compras.<br>
-
+Endpoint -->  GET --> '/orders' <br>
+<br>
 <br>**Extra points:** <br><br>
-● Endpoint de compras por usuario. (modo
-factura)<br>
+● Endpoint de compras por usuario. (modo factura)<br>
+Endpoint  -->  GET '/ordersByUser' <br>
+<br>
 <br>**Requisitos Extra:** <br><br>
 ● Endpoint modificación datos factura.<br>
 (modificación hecha por el vendedor).<br>
