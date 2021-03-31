@@ -11,7 +11,7 @@ var _dec, _class;
 
 var _Order = require("../entities/Order");
 
-var _OrderLine = require("../entities/OrderLine");
+var _Orderline = require("../entities/Orderline");
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -41,15 +41,16 @@ var OrderRepository = exports.OrderRepository = (_dec = EntityRepository(_Order.
 
   _createClass(OrderRepository, [{
     key: "createOrder",
-    value: async function createOrder(user, orderLines) {
+    value: async function createOrder(user, orderlines) {
       await this.queryRunner.startTransaction();
       try {
-        var orderLine = new _OrderLine.OrderLine();
-        orderLine.productId = orderLines.productId;
-        orderLine.quantity = orderLines.quantity;
+        var orderline = new _Orderline.Orderline();
+        orderline.productId = orderlines.productId;
+        orderline.quantity = orderlines.quantity;
         var order = new _Order.Order();
         order.user = user;
-        order.orderLines = orderLines;
+        order.orderlines = orderline;
+        console.log("the order is " + JSON.stringify(order));
         await this.queryRunner.manager.save(order);
         await this.queryRunner.commitTransaction();
       } catch (error) {
@@ -63,7 +64,7 @@ var OrderRepository = exports.OrderRepository = (_dec = EntityRepository(_Order.
     key: "ordersByUser",
     value: async function ordersByUser(user) {
       try {
-        var orders = await this.find({ relations: ["user", "orderLines"], userId: user });
+        var orders = await this.find({ relations: ["user", "orderlines"], userId: user });
         return orders;
       } catch (error) {
         console.error(error);

@@ -10,7 +10,7 @@ export class ProductRepository extends Repository{
     this.queryRunner = this.connection.createQueryRunner();
   }
 
-  async createProduct(name, brand, seller, category, price, photo, description){
+  async createProduct(name, brand, category, price, photo, description, seller){
     await this.queryRunner.startTransaction();
     try{
       const product = new Product;
@@ -21,6 +21,7 @@ export class ProductRepository extends Repository{
       product.price = price;
       product.photo = photo;
       product.description = description;
+      product.seller = seller;
       await this.queryRunner.manager.save(product)
       await this.queryRunner.commitTransaction()
     }catch(error){

@@ -3,9 +3,9 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.OrderLine = undefined;
+exports.Orderline = undefined;
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4;
 
 var _Order = require('./Order');
 
@@ -58,14 +58,15 @@ var _require = require("typeorm"),
     Entity = _require.Entity,
     PrimaryGeneratedColumn = _require.PrimaryGeneratedColumn,
     Column = _require.Column,
-    ManyToOne = _require.ManyToOne;
+    ManyToOne = _require.ManyToOne,
+    JoinColumn = _require.JoinColumn;
 
-var OrderLine = exports.OrderLine = (_dec = Entity(), _dec2 = PrimaryGeneratedColumn(), _dec3 = ManyToOne(function (type) {
+var Orderline = exports.Orderline = (_dec = Entity(), _dec2 = PrimaryGeneratedColumn(), _dec3 = ManyToOne(function (type) {
   return _Order.Order;
 }, function (order) {
-  return order.orderLines;
-}, { cascade: true }), _dec4 = Column('integer'), _dec5 = Column('integer'), _dec(_class = (_class2 = function OrderLine() {
-  _classCallCheck(this, OrderLine);
+  return order.orderlines;
+}, { cascade: true }), _dec4 = JoinColumn(), _dec5 = Column('integer'), _dec6 = Column('integer'), _dec(_class = (_class2 = function Orderline() {
+  _classCallCheck(this, Orderline);
 
   _initDefineProp(this, 'id', _descriptor, this);
 
@@ -79,17 +80,17 @@ var OrderLine = exports.OrderLine = (_dec = Entity(), _dec2 = PrimaryGeneratedCo
   initializer: function initializer() {
     return undefined;
   }
-}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'order', [_dec3], {
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'order', [_dec3, _dec4], {
+  enumerable: true,
+  initializer: function initializer() {
+    return _Order.Order;
+  }
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'productId', [_dec5], {
   enumerable: true,
   initializer: function initializer() {
     return undefined;
   }
-}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'productId', [_dec4], {
-  enumerable: true,
-  initializer: function initializer() {
-    return undefined;
-  }
-}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'quantity', [_dec5], {
+}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'quantity', [_dec6], {
   enumerable: true,
   initializer: function initializer() {
     return undefined;

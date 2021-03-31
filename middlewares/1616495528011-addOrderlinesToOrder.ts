@@ -1,13 +1,13 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class addOrderLinesToOrder1615806721204 implements MigrationInterface {
+export class addOrderlinesToOrder1616495528011 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        `ALTER TABLE 'order' ADD COLUMN 'orderLines' after 'user'`
+        `ALTER TABLE 'Order' ADD COLUMN 'orderlines' after 'userId'`
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        `ALTER TABLE 'order' DROP COLUMN 'orderLines'`
+        `ALTER TABLE 'Order' DROP COLUMN 'orderlines'`
     }
 
 }

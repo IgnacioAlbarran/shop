@@ -1,5 +1,5 @@
 const { Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn } = require("typeorm");
-import { OrderLine } from './OrderLine';
+import { Orderline } from './Orderline';
 import { User } from './User'
 
 @Entity()
@@ -7,10 +7,10 @@ import { User } from './User'
     @PrimaryGeneratedColumn()
     id = undefined;
 
-    @ManyToOne(() => User, user => user.orders, { eager: true, cascade: true })
-    @JoinColumn({name: 'userId'})
+    @ManyToOne(() => User, user => user.orders)
+    @JoinColumn()
     user = User;
 
-    @OneToMany(() => OrderLine, orderLine => orderLine.order)
-    orderLines = undefined;
+    @OneToMany(() => Orderline, orderline => orderline.order)
+    orderlines = Orderline;
   }

@@ -1,5 +1,5 @@
 import { Order } from "../entities/Order";
-import { OrderLine } from "../entities/OrderLine";
+import { Orderline } from "../entities/Orderline";
 
 const { EntityRepository, Repository, getConnection, getRepository, transactionEntityManager } = require("typeorm");
 
@@ -11,15 +11,16 @@ export class OrderRepository extends Repository{
     this.queryRunner = this.connection.createQueryRunner();
   }
 
-  async createOrder(user, orderLines){
+  async createOrder(user, orderlines){
     await this.queryRunner.startTransaction();
     try{
-      let orderLine = new OrderLine;
-      orderLine.productId = orderLines.productId;
-      orderLine.quantity = orderLines.quantity;
+      let orderline = new Orderline;
+      orderline.productId = orderlines.productId;
+      orderline.quantity = orderlines.quantity;
       let order = new Order;
       order.user = user;
-      order.orderLines = orderLines;
+      order.orderlines = orderline;
+      console.log(`the order is ${JSON.stringify(order)}`)
       await this.queryRunner.manager.save(order)
       await this.queryRunner.commitTransaction()
     }catch(error){
@@ -32,7 +33,7 @@ export class OrderRepository extends Repository{
 
   async ordersByUser(user){
     try{
-      const orders = await this.find({relations: ["user", "orderLines"], userId: user})
+      const orders = await this.find({relations: ["user", "orderlines"], userId: user})
       return orders
     }catch(error){
       console.error(error)

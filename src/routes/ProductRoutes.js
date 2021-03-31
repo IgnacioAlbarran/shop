@@ -26,10 +26,16 @@ productRouter.get('/products', async(req, res) => {
 })
 
 // create
-productRouter.post('/products', async(req, res) => {
-  const { name, brand, seller, category, price, photo, description } = req.body
+productRouter.post('/products', auth.isAuth, async(req, res) => {
+  const seller = req.user;
+  const level = req.level;
+
+  if (level < 2) {
+    return res.status(403).send({message: 'Forbidden'})
+  }
+  const { name, brand, category, price, photo, description } = req.body
   try{
-    const product = await new getCustomRepository(ProductRepository).createProduct(name, brand, seller, category, price, photo, description)
+    const product = await new getCustomRepository(ProductRepository).createProduct(name, brand, category, price, photo, description, seller)
       .then(product => res.send(product))
   }catch(error){
     console.error(error)

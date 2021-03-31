@@ -1,5 +1,5 @@
 import { getCustomRepository, Repository } from "typeorm";
-import { OrderLineRepository } from "../repositories/OrderLineRepository";
+import { OrderlineRepository } from "../repositories/OrderlineRepository";
 import { OrderRepository } from "../repositories/OrderRepository";
 import { UserRepository } from "../repositories/UserRepository";
 
@@ -11,17 +11,20 @@ const auth = require('../../middlewares/auth')
 orderRouter.post('/orders', auth.isAuth, async (req, res) => {
   const user = req.user
   const level = req.level
+
   if (level < 1){
     return res.status(403).send({ message: 'You must be an active user to buy, please register' })
   }
   try{
-    const { orderLines } = req.body
-    const productId = orderLines.productId
-    const quantity = orderLines.quantity
+    const { orderlines } = req.body
+    const productId = orderlines.productId
+    const quantity = orderlines.quantity
+    console.log('la orden ha llegado aqui')
+
     const usuario = await new getCustomRepository(UserRepository).findOne(user)
     console.log(`el user es : ${JSON.stringify(usuario)}`)
-    const lines = await new getCustomRepository(OrderLineRepository).createOrderLines(productId, quantity)
-    await new getCustomRepository(OrderRepository).createOrder(user, lines)
+    const lines = await new getCustomRepository(OrderlineRepository).createOrderlines(productId, quantity)
+    await new getCustomRepository(OrderRepository).createOrder(usuario, lines)
     return res.status(200).send({ message: 'Order processed' })
   }catch(error){
     res.status(500).send({message: error});

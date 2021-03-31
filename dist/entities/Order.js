@@ -7,7 +7,7 @@ exports.Order = undefined;
 
 var _dec, _dec2, _dec3, _dec4, _dec5, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3;
 
-var _OrderLine = require('./OrderLine');
+var _Orderline = require('./Orderline');
 
 var _User = require('./User');
 
@@ -67,10 +67,10 @@ var Order = exports.Order = (_dec = Entity(), _dec2 = PrimaryGeneratedColumn(), 
   return _User.User;
 }, function (user) {
   return user.orders;
-}, { eager: true, cascade: true }), _dec4 = JoinColumn({ name: 'userId' }), _dec5 = OneToMany(function () {
-  return _OrderLine.OrderLine;
-}, function (orderLine) {
-  return orderLine.order;
+}), _dec4 = JoinColumn(), _dec5 = OneToMany(function () {
+  return _Orderline.Orderline;
+}, function (orderline) {
+  return orderline.order;
 }), _dec(_class = (_class2 = function Order() {
   _classCallCheck(this, Order);
 
@@ -78,7 +78,7 @@ var Order = exports.Order = (_dec = Entity(), _dec2 = PrimaryGeneratedColumn(), 
 
   _initDefineProp(this, 'user', _descriptor2, this);
 
-  _initDefineProp(this, 'orderLines', _descriptor3, this);
+  _initDefineProp(this, 'orderlines', _descriptor3, this);
 }, (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'id', [_dec2], {
   enumerable: true,
   initializer: function initializer() {
@@ -89,9 +89,9 @@ var Order = exports.Order = (_dec = Entity(), _dec2 = PrimaryGeneratedColumn(), 
   initializer: function initializer() {
     return _User.User;
   }
-}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'orderLines', [_dec5], {
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'orderlines', [_dec5], {
   enumerable: true,
   initializer: function initializer() {
-    return undefined;
+    return _Orderline.Orderline;
   }
 })), _class2)) || _class);

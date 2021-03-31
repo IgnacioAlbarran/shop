@@ -39,7 +39,7 @@ var ProductRepository = exports.ProductRepository = (_dec = EntityRepository(_Pr
 
   _createClass(ProductRepository, [{
     key: "createProduct",
-    value: async function createProduct(name, brand, seller, category, price, photo, description) {
+    value: async function createProduct(name, brand, category, price, photo, description, seller) {
       await this.queryRunner.startTransaction();
       try {
         var product = new _Product.Product();
@@ -50,6 +50,7 @@ var ProductRepository = exports.ProductRepository = (_dec = EntityRepository(_Pr
         product.price = price;
         product.photo = photo;
         product.description = description;
+        product.seller = seller;
         await this.queryRunner.manager.save(product);
         await this.queryRunner.commitTransaction();
       } catch (error) {

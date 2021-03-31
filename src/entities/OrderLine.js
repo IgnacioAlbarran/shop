@@ -1,13 +1,14 @@
-const { Entity, PrimaryGeneratedColumn, Column, ManyToOne } = require("typeorm");
+const { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } = require("typeorm");
 import { Order } from './Order'
 
 @Entity()
-  export class OrderLine{
+  export class Orderline{
     @PrimaryGeneratedColumn()
     id = undefined;
 
-    @ManyToOne(type => Order, order => order.orderLines, { cascade: true })
-    order = undefined;
+    @ManyToOne(type => Order, order => order.orderlines, { cascade: true })
+    @JoinColumn()
+    order = Order;
 
     @Column('integer')
     productId = undefined;

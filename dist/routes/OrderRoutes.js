@@ -2,7 +2,7 @@
 
 var _typeorm = require("typeorm");
 
-var _OrderLineRepository = require("../repositories/OrderLineRepository");
+var _OrderlineRepository = require("../repositories/OrderlineRepository");
 
 var _OrderRepository = require("../repositories/OrderRepository");
 
@@ -16,18 +16,21 @@ var auth = require('../../middlewares/auth');
 orderRouter.post('/orders', auth.isAuth, async function (req, res) {
   var user = req.user;
   var level = req.level;
+
   if (level < 1) {
     return res.status(403).send({ message: 'You must be an active user to buy, please register' });
   }
   try {
-    var orderLines = req.body.orderLines;
+    var orderlines = req.body.orderlines;
 
-    var productId = orderLines.productId;
-    var quantity = orderLines.quantity;
+    var productId = orderlines.productId;
+    var quantity = orderlines.quantity;
+    console.log('la orden ha llegado aqui');
+
     var usuario = await new _typeorm.getCustomRepository(_UserRepository.UserRepository).findOne(user);
     console.log("el user es : " + JSON.stringify(usuario));
-    var lines = await new _typeorm.getCustomRepository(_OrderLineRepository.OrderLineRepository).createOrderLines(productId, quantity);
-    await new _typeorm.getCustomRepository(_OrderRepository.OrderRepository).createOrder(user, lines);
+    var lines = await new _typeorm.getCustomRepository(_OrderlineRepository.OrderlineRepository).createOrderlines(productId, quantity);
+    await new _typeorm.getCustomRepository(_OrderRepository.OrderRepository).createOrder(usuario, lines);
     return res.status(200).send({ message: 'Order processed' });
   } catch (error) {
     res.status(500).send({ message: error });

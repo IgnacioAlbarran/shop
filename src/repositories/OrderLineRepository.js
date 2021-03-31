@@ -1,24 +1,24 @@
-import { OrderLine } from "../entities/OrderLine.js";
+import { Orderline } from "../entities/Orderline.js";
 
 const { EntityRepository, Repository, getConnection, transactionEntityManager } = require("typeorm");
 
-@EntityRepository(OrderLine)
-export class OrderLineRepository extends Repository{
+@EntityRepository(Orderline)
+export class OrderlineRepository extends Repository{
   constructor(){
     super();
     this.connection = getConnection();
     this.queryRunner = this.connection.createQueryRunner();
   }
 
-  async createOrderLines(productId, quantity){
+  async createOrderlines(productId, quantity){
     await this.queryRunner.startTransaction();
     try{
-      let orderLine = new OrderLine;
-      orderLine.productId = productId;
-      orderLine.quantity = quantity;
-      await this.queryRunner.manager.save(orderLine)
+      let orderline = new Orderline;
+      orderline.productId = productId;
+      orderline.quantity = quantity;
+      await this.queryRunner.manager.save(orderline)
       await this.queryRunner.commitTransaction()
-      return orderLine
+      return orderline
     }catch(error){
       console.error(error)
       await this.queryRunner.rollbackTransaction();
