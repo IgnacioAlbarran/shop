@@ -14,7 +14,7 @@ Decodificamos con jwt-decode. <br>
 <br>
 ● Endpoint de Login <br>
 El endpoint es -->  POST '/signIn' <br>
-En el body pasaremos email y password, que si coinciden con los del usuario. Devuelve token.
+En el body pasaremos email y password, que si coinciden con los del usuario. Devuelve token.<br>
 <br>
 ● Endpoint de Registro <br>
 Es la ruta -->   POST  '/signUp' <br>
